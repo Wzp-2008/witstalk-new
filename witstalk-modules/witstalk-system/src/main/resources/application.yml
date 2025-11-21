@@ -1,0 +1,7 @@
+server:
+  port: 9422
+spring:
+    application:
+        name: witstalk-system
+    profiles:
+        active: ${SPRING_PROFILES_ACTIVE:dev}

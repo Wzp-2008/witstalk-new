@@ -1,0 +1,10 @@
+rootProject.name = "witstalk"
+include("witstalk-gateway")
+include("witstalk-auth")
+include("witstalk-api")
+include("witstalk-modules")
+include("witstalk-modules:witstalk-system")
+include("witstalk-modules:witstalk-game")
+include("witstalk-modules:witstalk-witstalk")
+include("witstalk-modules:witstalk-file")
+include("witstalk-common")

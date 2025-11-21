@@ -1,0 +1,25 @@
+spring:
+  config:
+    import:
+      - nacos:${spring.application.name}-${spring.profiles.active}
+      - nacos:application-${spring.profiles.active}
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://localhost:8848
+        group: ${spring.profiles.active}_GROUP
+        namespace: witstalk
+        username: nacos
+        password: nacos
+      config:
+        server-addr: http://localhost:8848
+        group: ${spring.profiles.active}_GROUP
+        namespace: witstalk
+        username: nacos
+        password: nacos
+        file-extension: yml
+        # 共享配置（全局通用配置）
+        shared-configs:
+          - data-id: application-${spring.profiles.active}.yml
+            group: ${spring.profiles.active}_GROUP
+            refresh: true
