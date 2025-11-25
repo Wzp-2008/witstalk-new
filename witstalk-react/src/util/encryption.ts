@@ -1,6 +1,7 @@
 // src/utils/encryption.ts
 import CryptoJS from 'crypto-js';
 import JSEncrypt from 'jsencrypt';
+import * as forge from 'node-forge';
 
 // AES加密配置
 const AES_CONFIG = {
@@ -90,7 +91,19 @@ export const aesDecrypt = (
         throw new Error('AES解密失败');
     }
 };
+const formatPublicKey = (publicKey: string): string => {
+    if (publicKey.startsWith('-----BEGIN PUBLIC KEY-----')) {
+        return publicKey;
+    }
 
+    // 处理换行符
+    let formattedKey = publicKey.replace(/(.{64})/g, '$1\n');
+    if (formattedKey.endsWith('\n')) {
+        formattedKey = formattedKey.slice(0, -1);
+    }
+
+    return `-----BEGIN PUBLIC KEY-----\n${formattedKey}\n-----END PUBLIC KEY-----`;
+}
 /**
  * RSA加密（使用公钥加密AES密钥）
  * @param plainText 明文
@@ -98,39 +111,25 @@ export const aesDecrypt = (
  */
 export const rsaEncrypt = (plainText: string, publicKey: string): string => {
     try {
-        const encryptor = new JSEncrypt();
-        encryptor.setPublicKey(publicKey);
-        const encrypted = encryptor.encrypt(plainText);
+        const publicKeyPem = formatPublicKey(publicKey);
+// 解析公钥
+        const publicKey1 = forge.pki.publicKeyFromPem(publicKeyPem);
 
-        if (!encrypted) {
-            throw new Error('RSA加密失败，可能是密钥格式错误或明文过长');
-        }
+        // 创建 SHA-256 哈希
+        const md = forge.md.sha256.create();
 
-        return encrypted;
+        // 使用 OAEP 填充加密
+        const encrypted = publicKey1.encrypt(plainText, 'RSA-OAEP', {
+            md: md,
+            mgf1: {
+                md: forge.md.sha256.create()
+            }
+        });
+
+        // 转换为 Base64
+        return forge.util.encode64(encrypted);
     } catch (error) {
         console.error('RSA加密失败:', error);
         throw new Error('RSA加密失败');
-    }
-};
-
-/**
- * RSA解密（仅前端测试用，实际私钥应保存在后端）
- * @param cipherText 密文
- * @param privateKey RSA私钥
- */
-export const rsaDecrypt = (cipherText: string, privateKey: string): string => {
-    try {
-        const decryptor = new JSEncrypt();
-        decryptor.setPrivateKey(privateKey);
-        const decrypted = decryptor.decrypt(cipherText);
-
-        if (!decrypted) {
-            throw new Error('RSA解密失败，可能是密钥不匹配或密文错误');
-        }
-
-        return decrypted;
-    } catch (error) {
-        console.error('RSA解密失败:', error);
-        throw new Error('RSA解密失败');
     }
 };

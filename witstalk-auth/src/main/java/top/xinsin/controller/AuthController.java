@@ -1,7 +1,8 @@
 package top.xinsin.controller;
 
 import com.alibaba.fastjson2.JSONObject;
-import domain.AuthUserRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+import top.xinsin.domain.AuthUserRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,6 +1,6 @@
 package top.xinsin.service;
 
-import domain.AuthUserRequest;
+import top.xinsin.domain.AuthUserRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

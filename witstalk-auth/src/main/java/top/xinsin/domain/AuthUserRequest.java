@@ -1,4 +1,4 @@
-package domain;
+package top.xinsin.domain;
 
 import lombok.Data;
 

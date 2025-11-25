@@ -5,8 +5,8 @@ import {useMessage} from "~/util/msg.tsx";
 export default function AppIndex () {
     const [messageApi, contextHolder] = message.useMessage();
     const {data, isLoading} = requestSWR({
-        url: '/menu/getMenu?q=23',
-        method: 'get',
+        url: '/system/debug',
+        method: 'post',
         data: {
             userId: 123,
             username: "张三"

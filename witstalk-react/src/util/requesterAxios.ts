@@ -1,6 +1,8 @@
 import axios from "axios";
 import {showMessage} from "~/util/msg";
-import {aesEncrypt, generateAesKeyAndIv} from "~/util/encryption.ts";
+import {aesEncrypt, generateAesKeyAndIv, rsaEncrypt} from "~/util/encryption.ts";
+import {keyStore} from "~/store/keyStore.ts";
+import CryptoJS from 'crypto-js';
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -31,12 +33,30 @@ const responseInterceptorsError = (error) => {
 instance.interceptors.response.use(responseInterceptors, responseInterceptorsError);
 const requestInterceptors = (request) => {
     // 请求前加密 key 44 iv 24
-    // false为params有值 true为data有值
-    let flag = !request.params
-    let data = request.params || request.data || {}
-    const {key, iv} = generateAesKeyAndIv()
-    let encodeRequestData = aesEncrypt(JSON.stringify(aesEncrypt), key, iv)
-
+    // 只有post请求才会加解密
+    let flag = request.method.toUpperCase() === "POST" || request.method.toUpperCase() === "PUT";
+    if (flag) {
+        let data = request.params || request.data
+        let key: string | null = '', iv: string | null = ''
+        if (keyStore.getState().key2 && keyStore.getState().key3) {
+            key = keyStore.getState().key2
+            iv = keyStore.getState().key3
+        } else {
+            const aesKeyAndIv = generateAesKeyAndIv()
+            key = aesKeyAndIv.key
+            iv = aesKeyAndIv.iv
+            keyStore.setState({key2: key, key3: iv})
+        }
+        console.log(key)
+        console.log(iv)
+        let encodeRequestData = ""
+        if (data) {
+            encodeRequestData = aesEncrypt(JSON.stringify(data), key as string, iv as string)
+        }
+        let encodeKeyIV = rsaEncrypt(key + iv, keyStore.getState().key1 as string)
+        console.log(encodeKeyIV)
+        request.data = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(encodeRequestData + encodeKeyIV))
+    }
     const token = window.localStorage.getItem("token");
     if (request.headers) {
         request.headers["Authorization"] = token;

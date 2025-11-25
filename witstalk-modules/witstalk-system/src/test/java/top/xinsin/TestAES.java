@@ -2,7 +2,6 @@ package top.xinsin;
 
 import com.alibaba.fastjson2.JSONObject;
 import lombok.SneakyThrows;
-import org.bouncycastle.jcajce.provider.asymmetric.RSA;
 import org.junit.jupiter.api.Test;
 import top.xinsin.util.AESUtils;
 import top.xinsin.util.RSAUtils;
@@ -12,7 +11,17 @@ import java.util.Arrays;
 import java.util.Base64;
 
 public class TestAES {
-
+    @Test
+    @SneakyThrows
+    public void testRSA(){
+        String privateRSAKey = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCI4muYlJ/MP+I6dpdBpgQo7WvXIS1nCy8I+KPP4wYq32nED7hULMyjAJu9y1p+TJov0wO6Q1FgZRMN0qojUNQoFjapS/35VkX1HQyVhbmhD4WamohijLZIxGKjBQFU3lHV2+yU3j0VjC3DzY9gUQoqyAAJPvkQN1crTIjaJYQQDkBwzzrUcX/U1MbH1yzhfUUx5eXgrcE2eLhFMR4J9UdJoJSQ3hIYB0aCIemPzbXyMDb/J/M5YSz4DsCEHvmRFWg3pU0V7YKakvj3pWWL4RGpHRguuEp8FecO30WEa6TP+6jgx+Je6BLFiXySUYttiPsMfpIJCTc41E3k1H7j0KZ/AgMBAAECggEADYCMDXZnls2cYpjtDZgzI9hbgVJv+JCVWKSx/+EMbDEybRkB3Se4HcIDGsMSz499zAbcAMUAI2qE6SGlD6u66aNbS/LHgA8/AlEVuzAAIf92dcwVdOcdWespMZxeR8FQQDCb0wli7BuyLfS6Vk1YG+Uzf7X6+lsDGa3IeAAoWS7xw+/j5GsawCay5y9vwr/4dZbSmJaguxeXq7Q+RwUEwrRaX4JasaGLhb7zYxs35w1o5o3qINWP06dvU122UTlofLer03m5nWPbq7t6KLq+R3k/5Pp8la/aaHpXtoNnwqQqEXT1v27tEwztgcYbcf6SJZk8qQ13rOwBg3eGwe+/DQKBgQC4Mv14cbItyuY584LmP+0x/rx3Nel4egr7MLkacpcYQv3VTRPi0rQSdunuWkkLbfbYTDDo6VaBcRHFEjGmkuOdR7QDLExMFuByUydpmv6wayFJu2xrXF40IcLLTGkcTAc8cq/dG366f9/oQ6ov3ut5G2Y5V8TSiqxanXFoi8mBSwKBgQC+PfOqGSEgw+E9+AQWErGCedurKTQauxvpqKilCKJxzdLhAp4UvSDJB9qJpraVKTBm9RDzq7/04SEZWgGxDC8652HpdXVfBYes5LgLGZP9UgpTTWcshFiN061y4OctkfTpB4vTRXvRfcvuStPmZNDdRkf+8gJy4bB/K4vJwddjHQKBgFp5+VTzC+FAW4u1l+N/HQREqtAndBGQaNpvWUyrYpoxNbtTC+SLOJYlQMyqHlz125zs980/6BTWtDLHuAmo9xKnSL2SQbvSNNcTDzXpQxbm2Ef+PsgRa9hRiPwRAUQ7+AXyE34Y5ku3SgUtT2gKKEGperHJ8cy0/unXkgAXQZg3AoGBAL0fG1+K8cr/z6hqKa3D0aGzALTMFldIkTwdBeJijhLymWRE1OArEC+pVhCnojTwqISBteN3ZzHKqLvqJWpbgYxeP5D1ysO23KT9DxVBzUP0zfz4Isw3mU0NFQ3yFP/RbJZIgTF7jta45wWyb6tHp/eBicshzVtlj68snB/rSvLlAoGBALXGNtIqYwh5pdHOe7zwFjdIGCyLI2/7oOMl1WCCRSPuBjsavdI3yiMngpqYp0E44Nn8wBQsT2HQavavb3iNQLZGdXkhW65yhOL5ElTKjFqA5ZgzZJRzDKuXKGtKqzeFWxk86laXkCzJ0DI2BYq0586yYpZXrXTI639Zzjn0zcYX";
+        String publicRSAKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAiOJrmJSfzD/iOnaXQaYEKO1r1yEtZwsvCPijz+MGKt9pxA+4VCzMowCbvctafkyaL9MDukNRYGUTDdKqI1DUKBY2qUv9+VZF9R0MlYW5oQ+FmpqIYoy2SMRiowUBVN5R1dvslN49FYwtw82PYFEKKsgACT75EDdXK0yI2iWEEA5AcM861HF/1NTGx9cs4X1FMeXl4K3BNni4RTEeCfVHSaCUkN4SGAdGgiHpj8218jA2/yfzOWEs+A7AhB75kRVoN6VNFe2CmpL496Vli+ERqR0YLrhKfBXnDt9FhGukz/uo4MfiXugSxYl8klGLbYj7DH6SCQk3ONRN5NR+49CmfwIDAQAB";
+//        String s = "Grh4sSZV68fU3bP546Nq0YVJgDaox4o+NQGjeEmjr1FLEkyrThRGyZZ4eNhClyWxMdHI28/kkRlXGzAnp/yeysUKUlWPa8nfRbsiBxt1LKnweEHam7Uf8/jPvwAUNaJhPJOPUCXKavbJc4frDyMRkLAJWWdBJUimlmVOJrJraqN08q/IPC+GCaSbfBq3OBPt5uE0E3Yxni9Wl7PtypdRpPhPhRL2Fe2LnCfX91RlIKfFcVZl30f6YHHW+S8qvkee7Nh8y1GAec14Qfpmh3r9ypMnBXihTVjjpeNFvFFZV1y4p8Y+wt+adsXy61RjVkstjvYXEAp7LdVhAJknri9/fg==";
+        String s = "HMQdYgqljZk72XguxGerdRbJSVBqE4oT9ARnVPrWYXy25UdGodfcneGJQb+QMgy2mD8ItBH6WWbXwuj/c5ivBNMPR/FlXhfBitX3zvmnWN19UzsQ0GH8P8+sdhpnd3YAxg0DWVPCHjUOwZXBKSu0YmX3ZcFk77giVJWw+HmN7jTHgM9FE1LY5eR3IYfPdGlJfO2faryjaR4qp6+RByLy12eK2x8gA262xkA75li/6nhNJSsYwxOiMBmYwMFyT0opkUUY3xSKlwshDyHa2em8Xye8Yrko2rHx7doSHg7Z/ATlprjOjEI4t3x4xxd67MIUn1m72GnuimXo/+1hnf4afQ==";
+        String sourceText = "eM6oj6fYyhoHtR7Bdmde2b6kkv1PPpO5CN4YLwY25zA=/y0mxpAmhEbxj+QB/hqeHg==";
+        System.out.println(RSAUtils.encryptByPublicKey(sourceText, publicRSAKey));
+        System.out.println(RSAUtils.decryptByPrivateKey(s, privateRSAKey));
+    }
     @Test
     @SneakyThrows
     public void test() {

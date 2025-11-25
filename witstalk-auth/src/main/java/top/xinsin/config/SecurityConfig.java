@@ -41,7 +41,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/login",
-                                "/register"
+                                "/register",
+                                "/generateKey"
                         )
                         .permitAll()
                         .anyRequest().authenticated()

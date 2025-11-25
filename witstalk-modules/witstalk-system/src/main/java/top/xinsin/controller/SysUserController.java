@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.mybatisflex.core.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import top.xinsin.api.system.RemoteUserService;
@@ -44,7 +45,7 @@ public class SysUserController {
         return Result.success();
     }
 
-    @GetMapping("/debug")
+    @PostMapping("/debug")
     public Result<List<SysUser>> debug(){
         LoginUser loginUser = SecurityUtil.getLoginUser();
         return Result.success(sysUserServiceImpl.list());
