@@ -3,6 +3,7 @@ package top.xinsin.filter;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.nacos.common.utils.StringUtils;
+import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -119,6 +120,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
                     // 创建装饰器，返回处理后的请求体
                     ServerHttpRequestDecorator decoratedRequest = new ServerHttpRequestDecorator(request) {
                         @Override
+                        @NonNull
                         public Flux<DataBuffer> getBody() {
                             return Flux.just(processedBuffer);
                         }
