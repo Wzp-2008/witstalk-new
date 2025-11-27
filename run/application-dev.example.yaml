@@ -1,0 +1,7 @@
+witstalk:
+  nacos:
+    scheme: http
+    server-addr: localhost
+    namespace: witstalk
+    username: nacos
+    password: nacos
