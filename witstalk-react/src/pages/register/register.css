@@ -1,0 +1,187 @@
+.register-container {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #fff8e8 0%, #f9f0d9 100%);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-row {
+  width: 100%;
+}
+
+.register-card {
+  background: rgba(255, 254, 249, 0.7); /* 半透明背景 */
+  backdrop-filter: blur(12px); /* 模糊效果 */
+  -webkit-backdrop-filter: blur(12px); /* Safari 兼容性 */
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1); /* 柔和阴影 */
+  padding: 40px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* 半透明边框 */
+}
+
+.register-card:hover {
+  box-shadow: 0 15px 40px rgba(31, 38, 135, 0.2); /* 增强阴影 */
+  transform: translateY(-2px);
+  background: rgba(255, 254, 249, 0.8); /* 略微增加不透明度 */
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.register-title {
+  color: #8b6914;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.register-subtitle {
+  color: #666;
+  font-size: 14px;
+}
+
+.register-form {
+  width: 100%;
+}
+
+.register-input {
+  border-radius: 12px;
+  border: 1px solid #e9d5b3;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  background-color: #fff;
+}
+
+.register-input:hover {
+  border-color: #c8a97e;
+}
+
+.register-input:focus {
+  border-color: #a67c41;
+  box-shadow: 0 0 0 2px rgba(166, 124, 65, 0.2);
+}
+
+.slider-container {
+  margin: 24px 0;
+  padding: 20px;
+  background: #fef9f0;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid #f0e0c8;
+}
+
+.register-button-item {
+  margin-bottom: 16px;
+}
+
+.register-button {
+  height: 40px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  background: #c8a97e;
+  border: none;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+.register-button:hover {
+  background: #a67c41;
+  transform: translateY(-1px);
+}
+
+.register-button:active {
+  transform: translateY(0);
+}
+
+.register-login {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+}
+
+.register-login span {
+  margin-right: 8px;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .register-card {
+    padding: 30px 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  .register-header {
+    margin-bottom: 20px;
+  }
+  
+  .register-title {
+    font-size: 24px;
+  }
+  
+  .register-button {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-container {
+    padding: 10px;
+  }
+  
+  .register-card {
+    padding: 20px 15px;
+    border-radius: 12px;
+  }
+  
+  .register-title {
+    font-size: 20px;
+  }
+  
+  .register-input {
+    font-size: 13px;
+  }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.register-card {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* 输入框聚焦时的动画 */
+.register-input:focus {
+  animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 2px rgba(166, 124, 65, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(166, 124, 65, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 0 2px rgba(166, 124, 65, 0.2);
+  }
+}
+
+/* 表单项间距 */
+.ant-form-item {
+  margin-bottom: 16px;
+}

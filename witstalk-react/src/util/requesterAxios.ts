@@ -1,8 +1,9 @@
 import axios from "axios";
 import {showMessage} from "~/util/msg";
-import {aesEncrypt, generateAesKeyAndIv, rsaEncrypt} from "~/util/encryption.ts";
+import {aesDecrypt, aesEncrypt, generateAesKeyAndIv, rsaEncrypt} from "~/util/encryption.ts";
 import {keyStore} from "~/store/keyStore.ts";
 import CryptoJS from 'crypto-js';
+import { request } from "node_modules/axios/index.d.cts";
 
 axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
@@ -13,17 +14,34 @@ const instance = axios.create({
     timeout: 1000000
 })
 const responseInterceptors = (response) => {
-    const token = response.headers.token;
-    if (token) {
-        window.localStorage.setItem("token", 'Bearer ' + token);
+    debugger
+    if (response.data instanceof Object) {
+        if (response.data.code === 401) {
+            showMessage.error("登录过期，请重新登录！")
+            window.localStorage.removeItem("token")
+            window.location.href = "/login"
+            return response.data
+        }
+    } else {
+        let encodeData = CryptoJS.enc.Base64.parse(response.data).toString(CryptoJS.enc.Utf8)
+        let key: string | null = '', iv: string | null = ''
+        if (keyStore.getState().key2 && keyStore.getState().key3) {
+            key = keyStore.getState().key2
+            iv = keyStore.getState().key3
+        }
+        let decryptData = JSON.parse(aesDecrypt(encodeData, key as string, iv as string))
+        const token = decryptData.data.token;
+        if (token) {
+            window.localStorage.setItem("token", 'Bearer ' + token);
+        }
+        return decryptData;
     }
-    return response;
 };
 const responseInterceptorsError = (error) => {
     if (error.response && error.response.status === 403) {
         showMessage.error("没有权限访问该资源，请联系管理员！")
     } else if (error.response && error.response.status === 500) {
-
+        showMessage.error("服务器内部错误，请联系管理员！")
     } else {
         // 其他错误处理
         console.error("请求错误:", error.message);

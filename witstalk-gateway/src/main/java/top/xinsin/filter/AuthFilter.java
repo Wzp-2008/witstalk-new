@@ -28,6 +28,7 @@ import top.xinsin.util.JwtUtil;
 import top.xinsin.util.RSAComponent;
 import top.xinsin.util.Result;
 
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.regex.Pattern;
@@ -71,23 +72,23 @@ public class AuthFilter implements GlobalFilter, Ordered {
                     log.debug("登出成功，移除token缓存: {}", token);
                 }
             }
-            return chain.filter(exchange);
+            return getFilterEncode(request, mutate, exchange, chain);
         }
         String token = getToken(request);
         if (token == null || token.isEmpty()) {
             return unauthorizedResponse(exchange, "令牌不能为空");
         }
 
-//        boolean isVerify = jwtUtil.validateToken(token);
-//        if (!isVerify) {
-//            return unauthorizedResponse(exchange, "令牌已过期或验证不正确！");
-//        }
-//        String username = jwtUtil.getFromJWT(token).getSubject();
-//
-//        boolean islogin = redisTemplate.hasKey(getTokenKey(username));
-//        if (!islogin) {
-//            return unauthorizedResponse(exchange, "登录状态已过期");
-//        }
+        boolean isVerify = jwtUtil.validateToken(token);
+        if (!isVerify) {
+            return unauthorizedResponse(exchange, "令牌已过期或验证不正确！");
+        }
+        String username = jwtUtil.getFromJWT(token).getSubject();
+
+        boolean islogin = redisTemplate.hasKey(getTokenKey(username));
+        if (!islogin) {
+            return unauthorizedResponse(exchange, "登录状态已过期");
+        }
 
         HttpMethod method = request.getMethod();
         if (!HttpMethod.POST.equals(method) && !HttpMethod.PUT.equals(method)) {
@@ -95,6 +96,10 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
 
         // 处理POST/PUT请求的请求体
+        return getFilterEncode(request, mutate, exchange, chain);
+    }
+
+    private Mono<Void> getFilterEncode(ServerHttpRequest request, ServerHttpRequest.Builder mutate, ServerWebExchange exchange, GatewayFilterChain chain) {
         return DataBufferUtils.join(request.getBody())
                 .flatMap(dataBuffer -> {
                     // 保留原始数据的副本，因为DataBuffer只能被消费一次
@@ -105,7 +110,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
                     String requestBody = new String(bytes, StandardCharsets.UTF_8);
 
                     // 处理请求体中的data数据
-                    String processedBody = processRequestBody(requestBody, request);
+                    String processedBody = processRequestBody(requestBody, mutate);
 
                     // 创建新的DataBuffer包含处理后的数据
                     DataBufferFactory bufferFactory = exchange.getResponse().bufferFactory();
@@ -140,17 +145,15 @@ public class AuthFilter implements GlobalFilter, Ordered {
     }
 
     @SneakyThrows
-    private String processRequestBody(String requestBody, ServerHttpRequest request) {
+    private String processRequestBody(String requestBody, ServerHttpRequest.Builder request) {
         requestBody = requestBody.replaceAll("\"", "");
         String base64Content = new String(Base64.getDecoder().decode(requestBody), StandardCharsets.UTF_8);
         String encodeKeyIV = base64Content.substring(base64Content.length() - 344);
         String decrypt = rsaComponent.decrypt(encodeKeyIV);
         String key = decrypt.substring(0, 44);
         String iv = decrypt.substring(44);
-//        MultiValueMapAdapter<String, String> stringStringHashMap = new MultiValueMapAdapter<>(new HashMap<>());
-//        stringStringHashMap.add("aes-iv", iv);
-//        stringStringHashMap.add("aes-key", key);
-//        request.getHeaders().addAll(stringStringHashMap);
+        request.header("aes-iv", URLEncoder.encode(iv, StandardCharsets.UTF_8));
+        request.header("aes-key", URLEncoder.encode(key, StandardCharsets.UTF_8));
         return cleanControlCharacters(aesComponent.decrypt(base64Content.substring(0, base64Content.length() - 344), key, iv));
     }
 

@@ -23,7 +23,10 @@ public class SysUserDetailsService {
             throw new UsernameNotFoundException("用户不存在");
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        bCryptPasswordEncoder.matches(password, sysUser.getPassword());
+        boolean matches = bCryptPasswordEncoder.matches(password, sysUser.getPassword());
+        if (!matches) {
+            throw new RuntimeException("账号或密码错误");
+        }
         AuthUserRequest authUserRequest = new AuthUserRequest();
         authUserRequest.setUsername(sysUser.getUsername());
         authUserRequest.setPassword(sysUser.getPassword());
