@@ -13,11 +13,13 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -123,6 +125,23 @@ public class AuthFilter implements GlobalFilter, Ordered {
                         @NonNull
                         public Flux<DataBuffer> getBody() {
                             return Flux.just(processedBuffer);
+                        }
+
+                        /**
+                         * 替换原始请求中的Content-Length值
+                         * @return 包含修改后的请求体长度的完整请求头
+                         */
+                        @Override
+                        @NonNull
+                        public HttpHeaders getHeaders() {
+                            // 此处new一个新的Map是为了复制原值，因为原始请求头是只读的
+                            HttpHeaders httpHeaders = new HttpHeaders(new LinkedMultiValueMap<>(request.getHeaders()));
+                            // 移除请求头中的Content-Length值
+                            httpHeaders.remove(HttpHeaders.CONTENT_LENGTH.toLowerCase());
+                            httpHeaders.remove(HttpHeaders.CONTENT_LENGTH);
+                            // 设置新的请求体长度
+                            httpHeaders.setContentLength(processedBuffer.readableByteCount());
+                            return httpHeaders;
                         }
                     };
 
