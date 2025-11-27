@@ -32,7 +32,6 @@ const responseInterceptorsError = (error) => {
 }
 instance.interceptors.response.use(responseInterceptors, responseInterceptorsError);
 const requestInterceptors = (request) => {
-    // 请求前加密 key 44 iv 24
     // 只有post请求才会加解密
     let flag = request.method.toUpperCase() === "POST" || request.method.toUpperCase() === "PUT";
     if (flag) {
@@ -47,14 +46,11 @@ const requestInterceptors = (request) => {
             iv = aesKeyAndIv.iv
             keyStore.setState({key2: key, key3: iv})
         }
-        console.log(key)
-        console.log(iv)
         let encodeRequestData = ""
         if (data) {
             encodeRequestData = aesEncrypt(JSON.stringify(data), key as string, iv as string)
         }
         let encodeKeyIV = rsaEncrypt(key + iv, keyStore.getState().key1 as string)
-        console.log(encodeKeyIV)
         request.data = CryptoJS.enc.Base64.stringify(CryptoJS.enc.Utf8.parse(encodeRequestData + encodeKeyIV))
     }
     const token = window.localStorage.getItem("token");

@@ -5,7 +5,7 @@ import {useMessage} from "~/util/msg.tsx";
 export default function AppIndex () {
     const [messageApi, contextHolder] = message.useMessage();
     const {data, isLoading} = requestSWR({
-        url: '/system/debug',
+        url: '/system/error',
         method: 'post',
         data: {
             userId: 123,

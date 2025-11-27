@@ -5,7 +5,6 @@ import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.nacos.common.utils.StringUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -24,26 +23,32 @@ import reactor.core.publisher.Mono;
 import top.xinsin.config.IgnoreUrlsConfig;
 import top.xinsin.constants.CacheConstants;
 import top.xinsin.constants.TokenConstants;
+import top.xinsin.util.AESComponent;
 import top.xinsin.util.JwtUtil;
 import top.xinsin.util.RSAComponent;
 import top.xinsin.util.Result;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.regex.Pattern;
 
 @Component
 @Slf4j
 public class AuthFilter implements GlobalFilter, Ordered {
+    private static final Pattern CONTROL_CHAR_PATTERN = Pattern.compile("[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]");
+
     private final IgnoreUrlsConfig ignoreWhite;
     private final RedisTemplate<String, Object> redisTemplate;
     private final JwtUtil jwtUtil;
     private final RSAComponent rsaComponent;
+    private final AESComponent aesComponent;
 
-    public AuthFilter(IgnoreUrlsConfig ignoreWhite, RedisTemplate<String, Object> redisTemplate, JwtUtil jwtUtil, RSAComponent rsaComponent) {
+    public AuthFilter(IgnoreUrlsConfig ignoreWhite, RedisTemplate<String, Object> redisTemplate, JwtUtil jwtUtil, RSAComponent rsaComponent, AESComponent aesComponent) {
         this.ignoreWhite = ignoreWhite;
         this.redisTemplate = redisTemplate;
         this.jwtUtil = jwtUtil;
         this.rsaComponent = rsaComponent;
+        this.aesComponent = aesComponent;
     }
 
     @Override
@@ -124,17 +129,29 @@ public class AuthFilter implements GlobalFilter, Ordered {
         return -200;
     }
 
+    /**
+     * 清理字符串中的控制字符
+     */
+    public static String cleanControlCharacters(String input) {
+        if (input == null) {
+            return null;
+        }
+        return CONTROL_CHAR_PATTERN.matcher(input).replaceAll("");
+    }
+
     @SneakyThrows
     private String processRequestBody(String requestBody, ServerHttpRequest request) {
         requestBody = requestBody.replaceAll("\"", "");
         String base64Content = new String(Base64.getDecoder().decode(requestBody), StandardCharsets.UTF_8);
         String encodeKeyIV = base64Content.substring(base64Content.length() - 344);
-        try {
-            String decrypt = rsaComponent.decrypt(encodeKeyIV);
-        }catch (Exception e) {
-            throw new RuntimeException("请求数据解密失败");
-        }
-        return requestBody;
+        String decrypt = rsaComponent.decrypt(encodeKeyIV);
+        String key = decrypt.substring(0, 44);
+        String iv = decrypt.substring(44);
+//        MultiValueMapAdapter<String, String> stringStringHashMap = new MultiValueMapAdapter<>(new HashMap<>());
+//        stringStringHashMap.add("aes-iv", iv);
+//        stringStringHashMap.add("aes-key", key);
+//        request.getHeaders().addAll(stringStringHashMap);
+        return cleanControlCharacters(aesComponent.decrypt(base64Content.substring(0, base64Content.length() - 344), key, iv));
     }
 
     /**

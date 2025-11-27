@@ -24,7 +24,7 @@ public class RSAComponent {
      * 解密数据
      */
     public String decrypt(String encryptedContent) throws Exception {
-        return RSAUtils.decryptByPrivateKey(encryptedContent, privateKey);
+        return RSAUtils.decryptByPrivateKey(encryptedContent, privateKey, false);
     }
 
     /**

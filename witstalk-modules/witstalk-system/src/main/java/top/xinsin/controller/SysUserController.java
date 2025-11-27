@@ -3,10 +3,7 @@ package top.xinsin.controller;
 import com.alibaba.fastjson2.JSON;
 import com.mybatisflex.core.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.xinsin.api.system.RemoteUserService;
 import top.xinsin.domain.SysUser;
 import top.xinsin.entity.LoginUser;
@@ -46,12 +43,12 @@ public class SysUserController {
     }
 
     @PostMapping("/debug")
-    public Result<List<SysUser>> debug(){
-        LoginUser loginUser = SecurityUtil.getLoginUser();
+    public Result<List<SysUser>> debug(@RequestBody SysUser sysUser){
+//        LoginUser loginUser = SecurityUtil.getLoginUser();
         return Result.success(sysUserServiceImpl.list());
     }
-    @GetMapping("/error")
+    @PostMapping("/error")
     public Result<String> error(){
-        return Result.success(JSON.toJSONString(1 / 0));
+        return Result.success(JSON.toJSONString("{}"));
     }
 }
