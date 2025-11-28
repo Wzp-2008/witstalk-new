@@ -1,8 +1,8 @@
-import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Space, theme } from 'antd';
 import { useUserStore } from '~/store/userStore';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import defaultAvatar from '~/assets/images/defaultAvatar.svg';
 
 const { useToken } = theme;
 
@@ -13,6 +13,10 @@ export default function RightTab() {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!userInfo.avatar) {
+            setAvatar(defaultAvatar);
+            return;
+        }
         setAvatar('data:image/png;base64,' + userInfo.avatar);
     }, [userInfo.avatar]);
 
@@ -46,7 +50,7 @@ export default function RightTab() {
                 )
             }>
                 <Space>
-                    <Avatar size={48} icon={<UserOutlined />} src={avatar} />
+                    <Avatar size={48} src={avatar} />
                     <span className="cream-subtitle" style={{ fontSize: '1.3rem'}}>{userInfo.nickName}</span>
                 </Space>
             </Dropdown>

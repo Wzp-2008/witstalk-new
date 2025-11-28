@@ -1,8 +1,8 @@
 import {Menu} from 'antd';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { HomeOutlined, MessageOutlined, SettingOutlined, RobotOutlined, FolderOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -10,22 +10,22 @@ const items: MenuItem[] = [
     {
         label: '首页',
         key: '/',
-        icon: <MailOutlined />,
+        icon: <HomeOutlined />,
     },
     {
         label: 'witstalk',
         key: '/witstalk',
-        icon: <MailOutlined />,
+        icon: <MessageOutlined />,
     },
     {
         label: '文件',
         key: '/file',
-        icon: <AppstoreOutlined />
+        icon: <FolderOutlined />
     },
     {
         label: '游戏',
         key: '/game',
-        icon: <AppstoreOutlined />
+        icon: <RobotOutlined />
     },
     {
         label: '系统',
@@ -36,7 +36,8 @@ const items: MenuItem[] = [
 
 export default function TopMenu() {
     const navigate = useNavigate();
-    const [current, setCurrent] = useState('/');
+    const location = useLocation();
+    const [current, setCurrent] = useState(location.pathname);
 
     const onClick = ({ item, key, keyPath, domEvent }) => {
         navigate(key);

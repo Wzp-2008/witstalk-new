@@ -1,0 +1,80 @@
+.system-container {
+  height: 100%;
+  padding: 10px;
+}
+
+.card-background {
+  /* 核心模糊效果 */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Safari 兼容 */
+  /* 半透明背景 */
+  background-color: rgba(255, 255, 255, 0.2);
+  /* 增强视觉效果 */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.system-card {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  transform: none;
+  border-radius: var(--cream-border-radius-small, 12px);
+  cursor: pointer;
+}
+
+.system-card:hover {
+  box-shadow: 0 8px 24px rgba(166, 124, 65, 0.2), 0 0 0 2px rgba(166, 124, 65, 0.1);
+  animation: breath 2s infinite ease-in-out;
+  transform: translateY(-4px) scale(1.02);
+  border: 1px solid var(--cream-tertiary, #c8a97e);
+}
+
+.system-card:hover .system-card-title {
+  color: var(--cream-primary, #8b6914);
+  font-weight: 500;
+}
+
+.system-card-icon {
+  width: 64px;
+  height: 64px;
+  transition: transform 0.3s ease;
+  transform: none;
+}
+
+.system-card:hover .system-card-icon {
+  transform: scale(1.1);
+  animation: breathIcon 2s infinite ease-in-out;
+}
+
+.system-card-title {
+  transition: color 0.3s ease;
+  color: var(--cream-light);
+  font-weight: normal;
+}
+
+/* 呼吸动画效果 */
+@keyframes breath {
+  0%, 100% {
+    box-shadow: 0 8px 24px rgba(166, 124, 65, 0.2), 0 0 0 2px rgba(166, 124, 65, 0.1);
+  }
+  50% {
+    box-shadow: 0 12px 32px rgba(166, 124, 65, 0.3), 0 0 0 3px rgba(166, 124, 65, 0.15);
+  }
+}
+
+@keyframes breathIcon {
+  0%, 100% {
+    transform: scale(1.1);
+    filter: brightness(1) sepia(0.1);
+  }
+  50% {
+    transform: scale(1.15);
+    filter: brightness(1.1) sepia(0.2);
+  }
+}
