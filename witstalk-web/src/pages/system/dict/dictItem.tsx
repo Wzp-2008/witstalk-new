@@ -83,6 +83,20 @@ export default function DictItem({ dictTypeId, dictType, onClose }: DictItemProp
             align: 'center',
         },
         {
+            title: '创建人',
+            dataIndex: 'createBy',
+            key: 'createBy',
+            align: 'center',
+            width: 100,
+        },
+        {
+            title: '创建时间',
+            dataIndex: 'createTime',
+            key: 'createTime',
+            align: 'center',
+            width: 200,
+        },
+        {
             title: '操作',
             key: 'action',
             fixed: 'end',

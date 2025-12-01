@@ -22,9 +22,9 @@ import { requestSWR, request } from '~/util/request';
 import { showMessage } from '~/util/msg';
 import WtDrawer from '~/components/WtDrawer';
 import WtPagination from '~/components/WtPagination';
-import AuthButton from '~/components/AuthButton';
-import AuthWrapper from '~/components/AuthWrapper';
 import defaultAvatar from '~/assets/images/defaultAvatar.svg';
+import SelectUser from '~/components/SelectUser';
+
 
 const url = {
     list: '/system/sysUser/list',
@@ -87,24 +87,28 @@ export default function User() {
             dataIndex: 'createBy',
             key: 'createBy',
             align: 'center',
+            width: 100,
         },
         {
             title: '创建时间',
             dataIndex: 'createTime',
             key: 'createTime',
             align: 'center',
+            width: 200,
         },
         {
             title: '修改人',
             dataIndex: 'updateBy',
             key: 'updateBy',
             align: 'center',
+            width: 100,
         },
         {
             title: '修改时间',
             dataIndex: 'updateTime',
             key: 'updateTime',
             align: 'center',
+            width: 200,
         },
         {
             title: '操作',

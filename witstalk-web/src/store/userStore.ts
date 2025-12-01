@@ -4,7 +4,7 @@ import { userInfo } from '~/api/user';
 
 export const useUserStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       userInfo: {
         id: null,
         nickName: null,
@@ -14,6 +14,7 @@ export const useUserStore = create(
         createTime: null,
         updateTime: null,
       },
+      permissions: [],
       updateUserInfo: async() => {
         const res = await userInfo();
         set({
@@ -25,7 +26,8 @@ export const useUserStore = create(
             avatar: res.data.avatar || null,
             createTime: res.data.createTime || null,
             updateTime: res.data.updateTime || null,
-          }
+          },
+          permissions: res.data.permissions || []
         });
       },
       restartUserInfo: () => {
@@ -38,8 +40,18 @@ export const useUserStore = create(
             avatar: null,
             createTime: null,
             updateTime: null,
-          }
+          },
+          permissions: []
         });
+      },
+      // 设置权限列表
+      setPermissions: (permissions: string[]) => {
+        set({ permissions });
+      },
+      // 检查是否有权限
+      hasPermission: (permission: string) => {
+        const { permissions } = get();
+        return permissions.includes(permission);
       }
     }),
     {
@@ -57,7 +69,7 @@ export const useUserStore = create(
           sessionStorage.removeItem(name);
         }
       },
-      partialize: (state) => ({ userInfo: state.userInfo }),
+      partialize: (state) => ({ userInfo: state.userInfo, permissions: state.permissions }),
     }
   )
 );
