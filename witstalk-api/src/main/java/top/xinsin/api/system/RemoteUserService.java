@@ -10,9 +10,9 @@ import top.xinsin.util.Result;
 
 @FeignClient(contextId = "remoteUserService", value = ServiceNameConstant.WITSTALK_SYSTEM, fallbackFactory = RemoteUserFallbackFactory.class)
 public interface RemoteUserService {
-    @GetMapping("/getUserInfo")
+    @GetMapping("/sysUser/getUserInfo")
     Result<SysUser> getUserInfo(@RequestParam("username") String username);
 
-    @GetMapping("/register")
+    @GetMapping("/sysUser/register")
     Result<SysUser> register(@RequestParam("username") String username,@RequestParam("nickName") String nickName,@RequestParam("password") String password);
 }

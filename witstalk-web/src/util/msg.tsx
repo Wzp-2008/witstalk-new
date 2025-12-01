@@ -52,5 +52,21 @@ export const showMessage = {
             console.warn('message 实例尚未初始化，使用默认 message');
             message.success(content);
         }
+    },
+    warning: (content: string) => {
+        if (globalMessageApi) {
+            globalMessageApi.warning(content);
+        } else {
+            console.warn('message 实例尚未初始化，使用默认 message');
+            message.warning(content);
+        }
+    },
+    info: (content: string) => {
+        if (globalMessageApi) {
+            globalMessageApi.info(content);
+        } else {
+            console.warn('message 实例尚未初始化，使用默认 message');
+            message.info(content);
+        }
     }
 };

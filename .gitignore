@@ -83,3 +83,5 @@ bun.lock
 # Runtime Configuration
 run/*.yaml
 !run/*.example.yaml
+
+.trae/

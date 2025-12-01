@@ -1,54 +1,59 @@
+
 import React, { useState, useEffect } from 'react';
 import {
     Table,
     Button,
-    Input,
     Form,
     Modal,
     Space,
-    Pagination
+    InputNumber,
+    Input
 } from 'antd';
 import {
     PlusOutlined,
     EditOutlined,
     DeleteOutlined,
-    SearchOutlined,
-    EyeOutlined,
-    RedoOutlined
+    EyeOutlined
 } from '@ant-design/icons';
 import { requestSWR, request } from '~/util/request';
 import { showMessage } from '~/util/msg';
 import WtDrawer from '~/components/WtDrawer';
 import WtPagination from '~/components/WtPagination';
-import DictItem from './dictItem';
-import DictType from '~/components/DictType';
 
 const url = {
-    list: '/system/sysDictType/list',
-    add: '/system/sysDictType/add',
-    detail: '/system/sysDictType/detail',
-    delete: '/system/sysDictType/delete',
-    edit: '/system/sysDictType/update',
-    refreshCache: '/system/sysDictType/refreshCache',
+    list: '/system/sysDictTypeItem/list',
+    detail: '/system/sysDictTypeItem/detail',
+    add: '/system/sysDictTypeItem/add',
+    edit: '/system/sysDictTypeItem/update',
+    delete: '/system/sysDictTypeItem/delete',
 }
 
-export default function Dict() {
+interface dictItem {
+    id: number;
+    dictTypeId: number;
+    dictType: string;
+    dictName: string;
+    dictValue: string;
+    sort: number;
+}
+
+interface DictItemProps {
+    dictTypeId: number;
+    dictType: string;
+    onClose: () => void;
+}
+
+export default function DictItem({ dictTypeId, dictType, onClose }: DictItemProps) {
     const [form] = Form.useForm();
     const [searchText, setSearchText] = useState('');
     const [drawerVisible, setDrawerVisible] = useState(false);
-    const [drawerTitle, setDrawerTitle] = useState('新增字典类型');
+    const [drawerTitle, setDrawerTitle] = useState('新增字典项');
     const [currentRecord, setCurrentRecord] = useState<any>(null);
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [total, setTotal] = useState(0);
     const [dataSource, setDataSource] = useState<any[]>([]);
     const [operationType, setOperationType] = useState<'add' | 'edit' | 'view'>('add');
-    // 字典项抽屉状态
-    const [dictItemDrawerVisible, setDictItemDrawerVisible] = useState(false);
-    const [currentDictType, setCurrentDictType] = useState<{
-        id: number;
-        dictType: string;
-    }>({ id: 0, dictType: '' });
 
     const columns = [
         {
@@ -60,36 +65,28 @@ export default function Dict() {
             render: (text: string, record: any, index: number) => index + 1,
         },
         {
-            title: '字典类型',
-            dataIndex: 'dictType',
-            key: 'dictType',
-            align: 'center',
-            render: (text: string, record: any) => (
-                <a onClick={() => {
-                    setCurrentDictType({ id: record.id, dictType: record.dictType });
-                    setDictItemDrawerVisible(true);
-                }}>
-                    {text}
-                </a>
-            ),
-        },
-        {
             title: '字典名称',
             dataIndex: 'dictName',
             key: 'dictName',
             align: 'center',
         },
         {
-            title: '字典描述',
-            dataIndex: 'dictDesc',
-            key: 'dictDesc',
+            title: '字典值',
+            dataIndex: 'dictValue',
+            key: 'dictValue',
+            align: 'center',
+        },
+        {
+            title: '排序',
+            dataIndex: 'sort',
+            key: 'sort',
             align: 'center',
         },
         {
             title: '操作',
             key: 'action',
             fixed: 'end',
-            width: 100,
+            width: 150,
             align: 'center',
             render: (_: any, record: any) => (
                 <Space size="middle">
@@ -101,15 +98,16 @@ export default function Dict() {
         },
     ]
 
-    // 获取字典类型列表数据
+    // 获取字典项列表数据
     const { data, error, mutate } = requestSWR({
         url: url.list,
         method: 'POST',
         data: {
             pageNumber: page,
             pageSize: pageSize,
-            dictType: searchText,
-            dictName: searchText
+            dictTypeId: dictTypeId,
+            dictName: searchText,
+            dictValue: searchText
         }
     });
 
@@ -120,23 +118,10 @@ export default function Dict() {
         }
     }, [data]);
 
-    // 处理搜索
-    const handleSearch = () => {
-        setPage(1);
-        mutate();
-    };
-
-    // 处理重置
-    const handleReset = () => {
-        setSearchText('');
-        setPage(1);
-        mutate();
-    };
-
     // 处理新增
     const handleAdd = () => {
         setOperationType('add');
-        setDrawerTitle('新增字典类型');
+        setDrawerTitle('新增字典项');
         setCurrentRecord(null);
         form.resetFields();
         setDrawerVisible(true);
@@ -145,7 +130,7 @@ export default function Dict() {
     // 处理编辑
     const handleEdit = (record: any) => {
         setOperationType('edit');
-        setDrawerTitle('编辑字典类型');
+        setDrawerTitle('编辑字典项');
         setCurrentRecord(record);
         form.setFieldsValue(record);
         setDrawerVisible(true);
@@ -154,7 +139,7 @@ export default function Dict() {
     // 处理查看
     const handleView = (record: any) => {
         setOperationType('view');
-        setDrawerTitle('查看字典类型');
+        setDrawerTitle('查看字典项');
         setCurrentRecord(record);
         form.setFieldsValue(record);
         setDrawerVisible(true);
@@ -164,7 +149,7 @@ export default function Dict() {
     const handleDelete = (record: any) => {
         Modal.confirm({
             title: '确认删除',
-            content: `确定要删除字典类型【${record.dictName}】吗？`,
+            content: `确定要删除字典项【${record.dictName}】吗？`,
             okText: '确定',
             okType: 'danger',
             cancelText: '取消',
@@ -203,17 +188,16 @@ export default function Dict() {
                 showMessage.success('编辑成功');
             } else {
                 // 新增
-                const addRes = await request({
+                await request({
                     url: url.add,
                     method: 'POST',
-                    data: values
+                    data: {
+                        ...values,
+                        dictTypeId: dictTypeId,
+                        dictType: dictType
+                    }
                 });
-                if (addRes.data) {
-                    showMessage.success('新增成功');
-                } else {
-                    showMessage.warning('新增失败, 存在相同的字典类型');
-                    return
-                }
+                showMessage.success('新增成功');
             }
             setDrawerVisible(false);
             mutate();
@@ -228,47 +212,12 @@ export default function Dict() {
         setPageSize(pageSize);
     };
 
-    const refreshCache = async () => {
-        try {
-            await request({
-                url: url.refreshCache,
-                method: 'GET'
-            });
-            showMessage.success('缓存刷新成功');
-        } catch (error) {
-            showMessage.error('缓存刷新失败');
-        }
-    };
-
     return (
         <div className="p-4">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold">字典管理</h3>
-                <div className="flex gap-2">
-                    <Button className='cream-button' type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-                        新增字典类型
-                    </Button>
-                    <Button className='cream-button' onClick={refreshCache} icon={<RedoOutlined />}>
-                        刷新缓存
-                    </Button>
-                </div>
-            </div>
-
-            {/* 搜索区域 */}
-            <div className="flex mb-4 gap-2">
-                <Input
-                    placeholder="请输入字典类型或名称"
-                    value={searchText}
-                    className='cream-input'
-                    onChange={(e) => setSearchText(e.target.value)}
-                    prefix={<SearchOutlined />}
-                    style={{ width: 300 }}
-                />
-                <Button type="primary" className='cream-button' onClick={handleSearch}>
-                    搜索
-                </Button>
-                <Button className='cream-button' onClick={handleReset}>
-                    重置
+                <h3 className="text-lg font-bold">{dictType} - 字典项管理</h3>
+                <Button type="primary" className='cream-button' icon={<PlusOutlined />} onClick={handleAdd}>
+                    新增字典项
                 </Button>
             </div>
 
@@ -291,7 +240,7 @@ export default function Dict() {
                 className="mt-4"
             />
 
-            {/* 统一抽屉：新增/编辑/查看 */}
+            {/* 新增/编辑/查看抽屉 */}
             <WtDrawer
                 title={drawerTitle}
                 open={drawerVisible}
@@ -305,21 +254,6 @@ export default function Dict() {
                     layout="vertical"
                     onFinish={handleSubmit}
                 >
-                    <Form.Item
-                        name="dictType"
-                        label="字典类型"
-                        rules={operationType !== 'view' ? [
-                            { required: true, message: '请输入字典类型' },
-                            { pattern: /^[a-zA-Z0-9_]+$/, message: '字典类型只能包含字母、数字和下划线' }
-                        ] : []}
-                    >
-                        <Input 
-                            className='cream-input' 
-                            placeholder="请输入字典类型" 
-                            disabled={operationType === 'view'}
-                        />
-                    </Form.Item>
-
                     <Form.Item
                         name="dictName"
                         label="字典名称"
@@ -335,34 +269,36 @@ export default function Dict() {
                     </Form.Item>
 
                     <Form.Item
-                        name="dictDesc"
-                        label="字典描述"
+                        name="dictValue"
+                        label="字典值"
+                        rules={operationType !== 'view' ? [
+                            { required: true, message: '请输入字典值' }
+                        ] : []}
                     >
-                        <Input.TextArea 
+                        <Input 
                             className='cream-input' 
-                            placeholder="请输入字典描述" 
-                            rows={4} 
+                            placeholder="请输入字典值" 
                             disabled={operationType === 'view'}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="sort"
+                        label="排序"
+                        rules={operationType !== 'view' ? [
+                            { required: true, message: '请输入排序' }
+                        ] : []}
+                    >
+                        <InputNumber 
+                            className='cream-input' 
+                            placeholder="请输入排序" 
+                            disabled={operationType === 'view'}
+                            min={0}
+                            style={{ width: '100%' }}
                         />
                     </Form.Item>
                 </Form>
             </WtDrawer>
-
-            {/* 字典项抽屉 */}
-            <WtDrawer
-                title={`字典项管理 - ${currentDictType.dictType}`}
-                open={dictItemDrawerVisible}
-                onClose={() => setDictItemDrawerVisible(false)}
-                width={800}
-                okButtonProps={{ className: 'cream-button' }}
-                cancelButtonProps={{ className: 'cream-button' }}
-            >
-                <DictItem
-                    dictTypeId={currentDictType.id}
-                    dictType={currentDictType.dictType}
-                    onClose={() => setDictItemDrawerVisible(false)}
-                />
-            </WtDrawer>
         </div>
-    );
+    )
 }
