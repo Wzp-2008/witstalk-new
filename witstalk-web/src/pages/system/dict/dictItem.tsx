@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Table,
     Button,
@@ -28,15 +28,6 @@ const url = {
     delete: '/system/sysDictTypeItem/delete',
 }
 
-interface dictItem {
-    id: number;
-    dictTypeId: number;
-    dictType: string;
-    dictName: string;
-    dictValue: string;
-    sort: number;
-}
-
 interface DictItemProps {
     dictTypeId: number;
     dictType: string;
@@ -45,7 +36,6 @@ interface DictItemProps {
 
 export default function DictItem({ dictTypeId, dictType, onClose }: DictItemProps) {
     const [form] = Form.useForm();
-    const [searchText, setSearchText] = useState('');
     const [drawerVisible, setDrawerVisible] = useState(false);
     const [drawerTitle, setDrawerTitle] = useState('新增字典项');
     const [currentRecord, setCurrentRecord] = useState<any>(null);
@@ -62,7 +52,7 @@ export default function DictItem({ dictTypeId, dictType, onClose }: DictItemProp
             key: 'index',
             align: 'center',
             width: 50,
-            render: (text: string, record: any, index: number) => index + 1,
+            render: (_: string, __: any, index: number) => index + 1,
         },
         {
             title: '字典名称',
@@ -120,8 +110,6 @@ export default function DictItem({ dictTypeId, dictType, onClose }: DictItemProp
             pageNumber: page,
             pageSize: pageSize,
             dictTypeId: dictTypeId,
-            dictName: searchText,
-            dictValue: searchText
         }
     });
 
@@ -275,9 +263,9 @@ export default function DictItem({ dictTypeId, dictType, onClose }: DictItemProp
                             { required: true, message: '请输入字典名称' }
                         ] : []}
                     >
-                        <Input 
-                            className='cream-input' 
-                            placeholder="请输入字典名称" 
+                        <Input
+                            className='cream-input'
+                            placeholder="请输入字典名称"
                             disabled={operationType === 'view'}
                         />
                     </Form.Item>
@@ -289,9 +277,9 @@ export default function DictItem({ dictTypeId, dictType, onClose }: DictItemProp
                             { required: true, message: '请输入字典值' }
                         ] : []}
                     >
-                        <Input 
-                            className='cream-input' 
-                            placeholder="请输入字典值" 
+                        <Input
+                            className='cream-input'
+                            placeholder="请输入字典值"
                             disabled={operationType === 'view'}
                         />
                     </Form.Item>
@@ -303,9 +291,9 @@ export default function DictItem({ dictTypeId, dictType, onClose }: DictItemProp
                             { required: true, message: '请输入排序' }
                         ] : []}
                     >
-                        <InputNumber 
-                            className='cream-input' 
-                            placeholder="请输入排序" 
+                        <InputNumber
+                            className='cream-input'
+                            placeholder="请输入排序"
                             disabled={operationType === 'view'}
                             min={0}
                             style={{ width: '100%' }}

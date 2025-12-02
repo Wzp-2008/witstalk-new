@@ -1,6 +1,6 @@
-import React from 'react';
-import { FloatButton, FloatButtonProps } from 'antd';
+import { FloatButton } from 'antd';
 import { useUserStore } from '~/store/userStore';
+import type { FloatButtonProps } from 'antd';
 
 /**
  * <AuthFloatButton permission="sys:user:add" icon={<PlusOutlined />} />

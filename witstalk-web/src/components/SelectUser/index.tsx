@@ -11,7 +11,7 @@ import {
   Space
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import { requestSWR, request } from '~/util/request';
+import { requestSWR } from '~/util/request';
 
 /*
 <Form.Item
@@ -156,7 +156,7 @@ export default function SelectUser({
         style={{ marginBottom: 12, borderRadius: '4px' }}
         onClick={(e) => e.stopPropagation()} // 阻止点击事件冒泡，防止下拉菜单关闭
       />
-      
+
       {/* 加载状态 */}
       {!data && !error ? (
         <div style={{ display: 'flex', justifyContent: 'center', padding: '32px 0' }}>
@@ -174,8 +174,8 @@ export default function SelectUser({
             renderItem={(user: User) => (
               <List.Item
                 key={user.id}
-                style={{ 
-                  cursor: 'pointer', 
+                style={{
+                  cursor: 'pointer',
                   borderRadius: '4px',
                   marginBottom: '4px',
                   transition: 'all 0.3s'
@@ -187,8 +187,8 @@ export default function SelectUser({
                 }}
               >
                 <List.Item.Meta
-                  avatar={<Avatar 
-                    src={user.avatar ? `data:image/jpeg;base64,${user.avatar}` : undefined} 
+                  avatar={<Avatar
+                    src={user.avatar ? `data:image/jpeg;base64,${user.avatar}` : undefined}
                     size={32}
                   />}
                   title={
@@ -210,7 +210,7 @@ export default function SelectUser({
             style={{ maxHeight: 320, overflowY: 'auto', marginBottom: '12px' }}
             className="user-list"
           />
-          
+
           {/* 分页 */}
           <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
             <Pagination

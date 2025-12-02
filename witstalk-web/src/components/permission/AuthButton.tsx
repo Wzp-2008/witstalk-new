@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, ButtonProps } from 'antd';
+import { Button } from 'antd';
 import { useUserStore } from '~/store/userStore';
+import type { ButtonProps } from 'antd';
 
 /**
  * <AuthButton permission="sys:user:add">新增用户</AuthButton>

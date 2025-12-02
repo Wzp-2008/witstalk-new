@@ -14,4 +14,5 @@ public class SysRole extends BaseEntity {
     private String roleName;
     private String roleKey;
     private String roleDesc;
+    private String role_img;
 }

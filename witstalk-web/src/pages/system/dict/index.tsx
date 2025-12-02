@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Table,
     Button,
     Input,
     Form,
     Modal,
-    Space,
-    Pagination
+    Space
 } from 'antd';
 import {
     PlusOutlined,
@@ -21,7 +20,7 @@ import { showMessage } from '~/util/msg';
 import WtDrawer from '~/components/WtDrawer';
 import WtPagination from '~/components/WtPagination';
 import DictItem from './dictItem';
-import DictType from '~/components/DictType';
+import type {ColumnsType} from "antd/es/table";
 
 const url = {
     list: '/system/sysDictType/list',
@@ -50,14 +49,14 @@ export default function Dict() {
         dictType: string;
     }>({ id: 0, dictType: '' });
 
-    const columns = [
+    const columns: ColumnsType = [
         {
             title: '#',
             dataIndex: 'index',
             key: 'index',
             align: 'center',
             width: 50,
-            render: (text: string, record: any, index: number) => index + 1,
+            render: (_: string, __: any, index: number) => index + 1,
         },
         {
             title: '字典类型',
@@ -341,9 +340,9 @@ export default function Dict() {
                             { pattern: /^[a-zA-Z0-9_]+$/, message: '字典类型只能包含字母、数字和下划线' }
                         ] : []}
                     >
-                        <Input 
-                            className='cream-input' 
-                            placeholder="请输入字典类型" 
+                        <Input
+                            className='cream-input'
+                            placeholder="请输入字典类型"
                             disabled={operationType === 'view'}
                         />
                     </Form.Item>
@@ -355,9 +354,9 @@ export default function Dict() {
                             { required: true, message: '请输入字典名称' }
                         ] : []}
                     >
-                        <Input 
-                            className='cream-input' 
-                            placeholder="请输入字典名称" 
+                        <Input
+                            className='cream-input'
+                            placeholder="请输入字典名称"
                             disabled={operationType === 'view'}
                         />
                     </Form.Item>
@@ -366,10 +365,10 @@ export default function Dict() {
                         name="dictDesc"
                         label="字典描述"
                     >
-                        <Input.TextArea 
-                            className='cream-input' 
-                            placeholder="请输入字典描述" 
-                            rows={4} 
+                        <Input.TextArea
+                            className='cream-input'
+                            placeholder="请输入字典描述"
+                            rows={4}
                             disabled={operationType === 'view'}
                         />
                     </Form.Item>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Table,
     Button,
@@ -23,7 +23,7 @@ import { showMessage } from '~/util/msg';
 import WtDrawer from '~/components/WtDrawer';
 import WtPagination from '~/components/WtPagination';
 import defaultAvatar from '~/assets/images/defaultAvatar.svg';
-import SelectUser from '~/components/SelectUser';
+import type {ColumnsType} from "antd/es/table";
 
 
 const url = {
@@ -46,14 +46,14 @@ export default function User() {
     const [dataSource, setDataSource] = useState<any[]>([]);
     const [operationType, setOperationType] = useState<'add' | 'edit' | 'view'>('add');
 
-    const columns = [
+    const columns: ColumnsType = [
         {
             title: '#',
             dataIndex: 'index',
             key: 'index',
             align: 'center',
             width: 50,
-            render: (text: string, record: any, index: number) => index + 1,
+            render: (_: string, __: any, index: number) => index + 1,
         },
         {
             title: '用户名',
@@ -351,9 +351,9 @@ export default function User() {
                             { required: true, message: '请输入用户名' }
                         ] : []}
                     >
-                        <Input 
-                            className='cream-input' 
-                            placeholder="请输入用户名" 
+                        <Input
+                            className='cream-input'
+                            placeholder="请输入用户名"
                             disabled={operationType === 'view'}
                         />
                     </Form.Item>
@@ -365,9 +365,9 @@ export default function User() {
                             { required: true, message: '请输入昵称' }
                         ] : []}
                     >
-                        <Input 
-                            className='cream-input' 
-                            placeholder="请输入昵称" 
+                        <Input
+                            className='cream-input'
+                            placeholder="请输入昵称"
                             disabled={operationType === 'view'}
                         />
                     </Form.Item>
@@ -380,9 +380,9 @@ export default function User() {
                             { type: 'email', message: '请输入有效的邮箱地址' }
                         ] : []}
                     >
-                        <Input 
-                            className='cream-input' 
-                            placeholder="请输入邮箱" 
+                        <Input
+                            className='cream-input'
+                            placeholder="请输入邮箱"
                             disabled={operationType === 'view'}
                         />
                     </Form.Item>
@@ -394,16 +394,15 @@ export default function User() {
                             label="密码"
                             rules={operationType === 'add' ? [
                                 { required: true, message: '请输入密码' },
-                                { 
-                                    pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,20}$/, 
+                                {
+                                    pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{6,20}$/,
                                     message: '密码至少6位，必须包含字母和数字'
                                 }
                                 ] : []}
                         >
-                            <Input.Password 
-                                className='cream-input' 
-                                placeholder={operationType === 'add' ? '请输入密码' : '不修改密码请留空'} 
-                                disabled={operationType === 'view'}
+                            <Input.Password
+                                className='cream-input'
+                                placeholder={operationType === 'add' ? '请输入密码' : '不修改密码请留空'}
                             />
                         </Form.Item>
                     }
@@ -414,8 +413,8 @@ export default function User() {
                     >
                         <div className="flex items-center gap-4">
                             {/* 显示当前头像 */}
-                            <Avatar 
-                                src={form.getFieldValue('avatar') ? `data:image/jpeg;base64,${form.getFieldValue('avatar')}` : undefined} 
+                            <Avatar
+                                src={form.getFieldValue('avatar') ? `data:image/jpeg;base64,${form.getFieldValue('avatar')}` : undefined}
                                 size={100}
                             />
                             {/* 上传按钮（仅在非查看模式显示） */}

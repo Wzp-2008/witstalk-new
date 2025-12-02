@@ -4,9 +4,9 @@ import TopMenu from "~/components/layout/TopMenu";
 import RightTab from "~/components/layout/RightTab";
 import CustomFooter from "~/components/layout/Footer";
 
-const {Header, Footer, Sider, Content} = Layout;
+const {Header, Footer, Content} = Layout;
 
-export default function AppLayout({children: any}) {
+export default function AppLayout() {
     return (
         <Flex gap="middle" wrap>
             <Layout style={{height: "100%", width: "100vw", background: "linear-gradient(135deg, var(--cream-bg-1) 0%, var(--cream-bg-2) 100%)"}}>

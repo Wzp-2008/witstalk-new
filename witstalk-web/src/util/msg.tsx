@@ -1,13 +1,14 @@
 // src/utils/msg.tsx（修正版）
 import { message } from 'antd';
-import { createContext, useContext, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useEffect } from 'react';
+import type {ReactNode} from 'react'
 
 // 创建上下文
 const MessageContext = createContext<ReturnType<typeof message.useMessage>[0] | null>(null);
 
 // 提供器组件
 export const MessageProvider = ({ children }: { children: ReactNode }) => {
-    const { messageApi, contextHolder } = message.useMessage();
+    const [ messageApi, contextHolder ] = message.useMessage();
 
     // 将实例存入全局变量，供非组件环境使用
     useEffect(() => {

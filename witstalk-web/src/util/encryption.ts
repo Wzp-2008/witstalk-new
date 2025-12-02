@@ -1,6 +1,5 @@
 // src/utils/encryption.ts
 import CryptoJS from 'crypto-js';
-import JSEncrypt from 'jsencrypt';
 import * as forge from 'node-forge';
 
 // AES加密配置

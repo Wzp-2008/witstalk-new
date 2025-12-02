@@ -39,9 +39,9 @@ export default function TopMenu() {
     const location = useLocation();
     const [current, setCurrent] = useState(location.pathname);
 
-    const onClick = ({ item, key, keyPath, domEvent }) => {
-        navigate(key);
-        setCurrent(key);
+    const onClick = (event: any) => {
+        navigate(event.key);
+        setCurrent(event.key);
     }
 
     return (

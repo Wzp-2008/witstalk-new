@@ -36,6 +36,8 @@ export const axios = (url: string, param: requestParams) => {
     let data = {
         url: url,
         method: param.method,
+        data: null,
+        params: null
     }
     if (param.method.toUpperCase() === "GET" || param.method.toUpperCase() === "PUT" ) {
         data['params'] = param.data;

@@ -1,6 +1,4 @@
-
-import React from 'react';
-import { Select, Spin } from 'antd';
+import { Select } from 'antd';
 import { requestSWR } from '~/util/request';
 
 const { Option } = Select;
@@ -21,14 +19,14 @@ interface DictTypeProps {
     className?: string;
 }
 
-export default function DictType({ 
-    dictType, 
-    value, 
-    onChange, 
-    placeholder = '请选择', 
-    mode = 'single', 
-    maxTagCount = 3, 
-    maxSelectCount = 0, 
+export default function DictType({
+    dictType,
+    value,
+    onChange,
+    placeholder = '请选择',
+    mode = 'single',
+    maxTagCount = 3,
+    maxSelectCount = 0,
     disabled = false,
     className = ''
 }: DictTypeProps) {
@@ -46,7 +44,7 @@ export default function DictType({
     };
 
     // 处理选择前的验证
-    const handleBeforeSelect = (value: any, option: any) => {
+    const handleBeforeSelect = (value: any) => {
         if (mode === 'multiple' && maxSelectCount > 0) {
             const currentValue = Array.isArray(value) ? value : [];
             if (currentValue.length >= maxSelectCount) {

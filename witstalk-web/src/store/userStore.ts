@@ -2,8 +2,28 @@ import { create } from "zustand";
 import { persist } from 'zustand/middleware';
 import { userInfo } from '~/api/user';
 
+interface UserStoreState {
+    userInfo: {
+        id: null | string;
+        nickName: null | string;
+        email: null | string;
+        username: null | string;
+        avatar: null | string;
+        createTime: null | string;
+        updateTime: null | string;
+    };
+    permissions: string[];
+}
+
+interface UserStore extends UserStoreState{
+    updateUserInfo: () => Promise<void>;
+    restartUserInfo: () => void;
+    setPermissions: (permissions: string[]) => void;
+    hasPermission: (permission: string) => boolean;
+}
+
 export const useUserStore = create(
-  persist(
+  persist<UserStore>(
     (set, get) => ({
       userInfo: {
         id: null,
@@ -69,7 +89,7 @@ export const useUserStore = create(
           sessionStorage.removeItem(name);
         }
       },
-      partialize: (state) => ({ userInfo: state.userInfo, permissions: state.permissions }),
+      partialize: (state: UserStore): Pick<UserStore, 'userInfo' | 'permissions'> => ({ userInfo: state.userInfo, permissions: state.permissions }),
     }
   )
 );
