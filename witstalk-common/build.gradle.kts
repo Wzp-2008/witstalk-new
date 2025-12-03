@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.mybatis-flex:mybatis-flex-spring-boot3-starter:1.11.4")
+    implementation("com.mybatis-flex:mybatis-flex-spring-boot3-starter:${rootProject.extra.get("mybatis-flex-version")}")
     //    jwt
     implementation("io.jsonwebtoken:jjwt-api:0.13.0")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.13.0")

@@ -1,3 +1,4 @@
+extra.set("mybatis-flex-version", "1.11.4")
 plugins {
     id("java")
     // 声明 Spring Boot 插件（不直接应用）

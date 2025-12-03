@@ -16,8 +16,8 @@ subprojects {
 
         implementation("org.springframework.boot:spring-boot-starter-web")
 //    mybatis flex + druid连接池 + 驱动
-        implementation("com.mybatis-flex:mybatis-flex-spring-boot3-starter:1.11.4")
-        annotationProcessor("com.mybatis-flex:mybatis-flex-processor:1.11.4")
+        implementation("com.mybatis-flex:mybatis-flex-spring-boot3-starter:${rootProject.extra.get("mybatis-flex-version")}")
+        annotationProcessor("com.mybatis-flex:mybatis-flex-processor:${rootProject.extra.get("mybatis-flex-version")}")
         implementation("com.alibaba:druid-spring-boot-starter:1.2.27")
         implementation("com.mysql:mysql-connector-j:8.4.0")
 
