@@ -1,4 +1,5 @@
 extra.set("mybatis-flex-version", "1.11.4")
+extra.set("lombok-version", "1.18.42")
 plugins {
     id("java")
     // 声明 Spring Boot 插件（不直接应用）
@@ -51,12 +52,12 @@ subprojects {
 //        fastjson处理
         implementation("com.alibaba.fastjson2:fastjson2:2.0.60")
         // Lombok 核心依赖
-        implementation("org.projectlombok:lombok:1.18.42")
+        implementation("org.projectlombok:lombok:${rootProject.extra.get("lombok-version")}")
         // 注解处理器（必须添加，否则 Lombok 注解不生效）
-        annotationProcessor("org.projectlombok:lombok:1.18.42")
+        annotationProcessor("org.projectlombok:lombok:${rootProject.extra.get("lombok-version")}")
         // 测试环境支持（如需在测试类中使用 Lombok）
-        testImplementation("org.projectlombok:lombok:1.18.42")
-        testAnnotationProcessor("org.projectlombok:lombok:1.18.42")
+        testImplementation("org.projectlombok:lombok:${rootProject.extra.get("lombok-version")}")
+        testAnnotationProcessor("org.projectlombok:lombok:${rootProject.extra.get("lombok-version")}")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
     }
 }

@@ -24,6 +24,7 @@ dependencies {
     implementation(project(":witstalk-common"))
     implementation("com.mybatis-flex:mybatis-flex-spring-boot3-starter:${rootProject.extra.get("mybatis-flex-version")}")
     annotationProcessor("com.mybatis-flex:mybatis-flex-processor:${rootProject.extra.get("mybatis-flex-version")}")
+    kapt("org.projectlombok:lombok:${rootProject.extra.get("lombok-version")}")
     kapt("com.mybatis-flex:mybatis-flex-processor:${rootProject.extra.get("mybatis-flex-version")}")
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -31,4 +32,7 @@ dependencies {
 }
 tasks.test {
     useJUnitPlatform()
+}
+kapt {
+    keepJavacAnnotationProcessors = true
 }
