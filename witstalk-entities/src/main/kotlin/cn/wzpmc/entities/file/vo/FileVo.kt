@@ -1,4 +1,4 @@
-package cn.wzpmc.entities.vo
+package cn.wzpmc.entities.file.vo
 
 import com.mybatisflex.annotation.Table
 import top.xinsin.entity.BaseEntity

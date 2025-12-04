@@ -1,15 +1,16 @@
 package cn.wzpmc.service
 
-import cn.wzpmc.entities.files.FolderCreateRequest
-import cn.wzpmc.entities.files.FullRawFileObject
-import cn.wzpmc.entities.files.MoveFileRequest
-import cn.wzpmc.entities.files.RawFileObject
-import cn.wzpmc.entities.files.enums.FileType
-import cn.wzpmc.entities.files.enums.SortField
-import cn.wzpmc.entities.vo.FileVo
-import cn.wzpmc.entities.vo.FolderVo
-import cn.wzpmc.entities.vo.table.FileVoTableDef.FILE_VO
-import cn.wzpmc.entities.vo.table.FolderVoTableDef.FOLDER_VO
+import cn.wzpmc.entities.FolderCreateRequest
+import cn.wzpmc.entities.FullRawFileObject
+import cn.wzpmc.entities.MoveFileRequest
+import cn.wzpmc.entities.RawFileObject
+import cn.wzpmc.entities.enums.FileType
+import cn.wzpmc.entities.enums.SortField
+import cn.wzpmc.entities.file.vo.FileVo
+import cn.wzpmc.entities.file.vo.FolderVo
+import cn.wzpmc.entities.file.vo.table.FileVoTableDef.FILE_VO
+import cn.wzpmc.entities.file.vo.table.FolderVoTableDef.FOLDER_VO
+import cn.wzpmc.entities.system.table.SysUserTableDef.SYS_USER
 import cn.wzpmc.interfaces.FilePathService
 import cn.wzpmc.mapper.FileMapper
 import cn.wzpmc.mapper.FolderMapper
@@ -40,7 +41,6 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.StreamUtils
 import org.springframework.web.multipart.MultipartHttpServletRequest
-import top.xinsin.domain.table.SysUserTableDef.SYS_USER
 import top.xinsin.entity.LoginUser
 import top.xinsin.util.PageResult
 import top.xinsin.util.Result
@@ -65,6 +65,7 @@ class FileService(
     private val savePath: File,
 ) {
     private lateinit var pathService: FilePathService
+
     @Autowired
     @Lazy
     fun setPathService(pathService: FilePathService) {
@@ -188,7 +189,7 @@ class FileService(
                 FILE_VO.MIME.`as`("mime"),
                 SYS_USER.USERNAME.`as`("owner_name")
             ).from(FILE_VO)
-            .leftJoin<QueryWrapper>(SYS_USER).on(SYS_USER.ID.eq(FILE_VO.UPLOADER))
+                .leftJoin<QueryWrapper>(SYS_USER).on(SYS_USER.ID.eq(FILE_VO.UPLOADER))
                 .groupBy(FILE_VO.ID)
         }
 
@@ -248,7 +249,7 @@ class FileService(
         val size = fileMapper.selectCountByQuery(QueryMethods.selectCount().from(rawFileSelect).`as`("subQuery"))
         val paginate =
             fileMapper.paginateAs(page, num, size, from, FullRawFileObject::class.java)
-        val result = PageResult.page(page, num.toLong(),paginate.totalRow, paginate.getRecords())
+        val result = PageResult.page(page, num.toLong(), paginate.totalRow, paginate.getRecords())
         return Result.success(result)
     }
 
@@ -278,7 +279,7 @@ class FileService(
         }
         val folderVo = FolderVo(
             name = name,
-            creator =  user.userId,
+            creator = user.userId,
             parent = parent
         )
         folderMapper.insert(folderVo)
@@ -300,7 +301,9 @@ class FileService(
     }
 
     fun deleteFolder(id: Long) {
-        fileMapper.selectListByCondition(FILE_VO.FOLDER.eq(id)).forEach { fileVo: FileVo -> this.deleteFile(fileVo) }
+        for (value in fileMapper.selectListByCondition(FILE_VO.FOLDER.eq(id))) {
+            this.deleteFile(value)
+        }
         fileMapper.deleteByCondition(FILE_VO.FOLDER.eq(id))
         folderMapper.selectListByCondition(FOLDER_VO.PARENT.eq(id)).stream().map(FolderVo::getId)
             .forEach { id: Long -> this.deleteFolder(id) }
@@ -440,6 +443,7 @@ class FileService(
         val fileVo: FileVo = this.fileMapper.selectOneById(id) ?: return Result.fail(HttpStatus.NOT_FOUND, "未知文件")
         return Result.success(fileVo)
     }
+
     fun checkUploadPossible(name: String, folder: Long?): Result<Boolean> {
         val filename = getFilename(name)
         val illegalResult = filename.checkIllegal<Boolean>()
@@ -537,6 +541,7 @@ class FileService(
 
     private class FilenameDescription(val name: String, ext: String?) {
         val ext: String
+
         init {
             if (ext == null) {
                 this.ext = ""
@@ -544,6 +549,7 @@ class FileService(
                 this.ext = ext
             }
         }
+
         fun <T> checkIllegal(): Optional<Result<T>> {
             if (name.length > 120 || ext.length > 40) {
                 return Optional.of(Result.fail(HttpStatus.PAYLOAD_TOO_LARGE, "文件名过长，无法上传！"))

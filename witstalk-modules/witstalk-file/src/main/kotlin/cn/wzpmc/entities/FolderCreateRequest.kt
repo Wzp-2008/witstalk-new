@@ -1,4 +1,4 @@
-package cn.wzpmc.entities.files
+package cn.wzpmc.entities
 
 data class FolderCreateRequest(
     /**

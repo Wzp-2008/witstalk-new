@@ -1,7 +1,7 @@
 package cn.wzpmc.interfaces.impl
 
-import cn.wzpmc.entities.files.RawFileObject
-import cn.wzpmc.entities.vo.FolderVo
+import cn.wzpmc.entities.RawFileObject
+import cn.wzpmc.entities.file.vo.FolderVo
 import cn.wzpmc.interfaces.FilePathService
 import cn.wzpmc.mapper.FolderMapper
 

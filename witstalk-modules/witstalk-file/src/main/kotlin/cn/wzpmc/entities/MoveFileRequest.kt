@@ -1,6 +1,6 @@
-package cn.wzpmc.entities.files
+package cn.wzpmc.entities
 
-import cn.wzpmc.entities.files.enums.FileType
+import cn.wzpmc.entities.enums.FileType
 
 data class MoveFileRequest(
     /**

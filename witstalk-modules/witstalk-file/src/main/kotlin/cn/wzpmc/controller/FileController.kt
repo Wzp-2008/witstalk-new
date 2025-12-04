@@ -1,13 +1,13 @@
 package cn.wzpmc.controller
 
-import cn.wzpmc.entities.files.FilePathDescription
-import cn.wzpmc.entities.files.FolderCreateRequest
-import cn.wzpmc.entities.files.FullRawFileObject
-import cn.wzpmc.entities.files.MoveFileRequest
-import cn.wzpmc.entities.files.enums.FileType
-import cn.wzpmc.entities.files.enums.SortField
-import cn.wzpmc.entities.vo.FileVo
-import cn.wzpmc.entities.vo.FolderVo
+import cn.wzpmc.entities.FilePathDescription
+import cn.wzpmc.entities.FolderCreateRequest
+import cn.wzpmc.entities.FullRawFileObject
+import cn.wzpmc.entities.MoveFileRequest
+import cn.wzpmc.entities.enums.FileType
+import cn.wzpmc.entities.enums.SortField
+import cn.wzpmc.entities.file.vo.FileVo
+import cn.wzpmc.entities.file.vo.FolderVo
 import cn.wzpmc.service.FileService
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.web.bind.annotation.*

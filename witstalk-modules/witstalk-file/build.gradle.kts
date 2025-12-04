@@ -21,7 +21,6 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    kapt("com.mybatis-flex:mybatis-flex-processor:1.11.4")
     implementation(project(":witstalk-modules:witstalk-system"))
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation("commons-codec:commons-codec:1.17.1")

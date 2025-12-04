@@ -1,8 +1,8 @@
-package cn.wzpmc.entities.files
+package cn.wzpmc.entities
 
-import cn.wzpmc.entities.files.enums.FileType
-import cn.wzpmc.entities.vo.FileVo
-import cn.wzpmc.entities.vo.FolderVo
+import cn.wzpmc.entities.enums.FileType
+import cn.wzpmc.entities.file.vo.FileVo
+import cn.wzpmc.entities.file.vo.FolderVo
 import java.util.*
 
 open class RawFileObject(

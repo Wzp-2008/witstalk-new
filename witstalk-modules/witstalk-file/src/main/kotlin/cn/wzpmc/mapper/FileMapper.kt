@@ -1,6 +1,6 @@
 package cn.wzpmc.mapper
 
-import cn.wzpmc.entities.vo.FileVo
+import cn.wzpmc.entities.file.vo.FileVo
 import com.mybatisflex.core.BaseMapper
 import org.apache.ibatis.annotations.Mapper
 

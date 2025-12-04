@@ -1,4 +1,4 @@
-package cn.wzpmc.entities.files.enums
+package cn.wzpmc.entities.enums
 
 import com.mybatisflex.core.query.QueryColumn
 import com.mybatisflex.core.query.QueryMethods

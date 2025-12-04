@@ -1,4 +1,4 @@
-package cn.wzpmc.entities.files.enums
+package cn.wzpmc.entities.enums
 enum class FileType {
     /**
      * 文件

@@ -1,6 +1,6 @@
 package cn.wzpmc.interfaces.impl
 
-import cn.wzpmc.entities.files.FullRawFileObject
+import cn.wzpmc.entities.FullRawFileObject
 import cn.wzpmc.mapper.FolderMapper
 import cn.wzpmc.service.FileService
 import cn.wzpmc.utils.log
