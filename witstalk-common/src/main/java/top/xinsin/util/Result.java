@@ -12,49 +12,26 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
-@Data
 @Slf4j
-public class Result<T> {
-    private Integer code = 200;
-    private String msg = "success";
-    private String error;
-    private T data;
-    private Long timestamp = System.currentTimeMillis();
-
-    private Result() {}
-
-    public static  <T> Result<T> success() {
-        return new Result<>();
+public record Result<T>(Integer code, String msg, String error, T data, Long timestamp) {
+    public static <T> Result<T> success() {
+        return new Result<>(200, "success", null, null, System.currentTimeMillis());
     }
     public static <T> Result<T> success(T data) {
         return new Result<>(200, "success", null, data, System.currentTimeMillis());
     }
-    public static  <T> Result<T> success(@NonNull String msg, T data) {
-        Result<T> result = new Result<>();
-        result.setMsg(msg);
-        result.setData(data);
-        return result;
+    public static <T> Result<T> success(@NonNull String msg, T data) {
+        return new Result<>(200, msg, null, data, System.currentTimeMillis());
     }
     public static <T> Result<T> fail(@NonNull String msg) {
-        Result<T> result = new Result<>();
-        result.setCode(500);
-        result.setMsg(msg);
-        return result;
+        return new Result<>(500, msg, null, null, System.currentTimeMillis());
     }
     public static <T> Result<T> fail(@NonNull Integer code, @NonNull String msg) {
-        Result<T> result = new Result<>();
-        result.setCode(code);
-        result.setMsg(msg);
-        return result;
+        return new Result<>(code, msg, null, null, System.currentTimeMillis());
     }
     public static <T> Result<T> fail(@NonNull Integer code, @NonNull String msg, @NonNull String error) {
-        Result<T> result = new Result<>();
-        result.setCode(code);
-        result.setMsg(msg);
-        result.setError(error);
-        return result;
+        return new Result<>(code, msg, error, null, System.currentTimeMillis());
     }
-
     public static <T> Result<T> fail(@NonNull HttpStatus code, @NonNull String msg) {
         return fail(code.value(), msg);
     }
