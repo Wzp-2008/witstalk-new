@@ -16,7 +16,6 @@ import top.xinsin.entity.LoginUser;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.Objects;
 
 public class SecurityUtil {
 
@@ -102,15 +101,20 @@ public class SecurityUtil {
         return getLoginUser(token);
     }
 
+    @Nullable
     public static LoginUser getLoginUser() {
         HttpServletRequest request = getRequest();
         if (request == null) {
             throw new RuntimeException("无法获取请求对象");
         }
-        return getLoginUser(request);
+        try {
+            return getLoginUser(request);
+        } catch (RuntimeException ignored) {
+            return null;
+        }
     }
 
-    public static HttpServletRequest getRequest(){
+    private static HttpServletRequest getRequest(){
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) {
             return null;
