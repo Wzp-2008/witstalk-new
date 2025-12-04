@@ -1,12 +1,12 @@
 package top.xinsin.service;
 
-import top.xinsin.api.system.domain.vo.SysUserAndAuthVO;
+import cn.wzpmc.entities.system.SysUser;
+import cn.wzpmc.entities.system.vo.SysUserAndAuthVO;
 import top.xinsin.domain.AuthUserRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import top.xinsin.api.system.RemoteUserService;
-import top.xinsin.api.system.domain.SysUser;
 import top.xinsin.util.Result;
 import top.xinsin.util.SecurityUtil;
 
