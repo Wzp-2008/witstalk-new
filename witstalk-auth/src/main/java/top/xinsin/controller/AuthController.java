@@ -1,12 +1,12 @@
 package top.xinsin.controller;
 
+import cn.wzpmc.entities.system.vo.SysUserAndAuthVO;
 import com.alibaba.fastjson2.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import top.xinsin.api.system.domain.vo.SysUserAndAuthVO;
 import top.xinsin.constants.CacheConstants;
 import top.xinsin.domain.AuthUserRequest;
 import top.xinsin.service.SysUserDetailsService;

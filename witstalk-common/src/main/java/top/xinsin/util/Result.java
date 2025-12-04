@@ -26,10 +26,8 @@ public class Result<T> {
     public static  <T> Result<T> success() {
         return new Result<>();
     }
-    public static  <T> Result<T> success(T data) {
-        Result<T> result = new Result<>();
-        result.setData(data);
-        return result;
+    public static <T> Result<T> success(T data) {
+        return new Result<>(200, "success", null, data, System.currentTimeMillis());
     }
     public static  <T> Result<T> success(@NonNull String msg, T data) {
         Result<T> result = new Result<>();

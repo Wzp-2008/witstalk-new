@@ -9,7 +9,7 @@ import React from "react";
 interface SystemItem {
     img: object;
     title: string;
-    onClick: () => void;
+    url: string;
 }
 
 export default function System() {
@@ -19,30 +19,27 @@ export default function System() {
         {
             img: logo,
             title: '用户管理',
-            onClick: () => {
-                navigate('/system/user');
-            }
+            url: '/system/user'
         },
         {
             img: logo,
             title: '菜单管理',
-            onClick: () => {
-                navigate('/system/menu');
-            }
+            url: '/system/menu'
         },
         {
             img: logo,
             title: '角色管理',
-            onClick: () => {
-                navigate('/system/role');
-            }
+            url: '/system/role'
         },
         {
             img: logo,
             title: '字典管理',
-            onClick: () => {
-                navigate('/system/dict');
-            }
+            url: '/system/dict'
+        },
+        {
+            img: logo,
+            title: '频道管理',
+            url: '/system/channel'
         }
     ]
 
@@ -51,7 +48,7 @@ export default function System() {
         children: (
             <Card
                 className="system-card card-background"
-                onClick={item.onClick}
+                onClick={() => navigate(item.url)}
                 cover={
                     <img
                         alt="icon"

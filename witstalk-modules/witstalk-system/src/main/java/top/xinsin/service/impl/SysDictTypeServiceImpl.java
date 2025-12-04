@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
+import static cn.wzpmc.entities.system.table.SysDictTypeItemTableDef.SYS_DICT_TYPE_ITEM;
 import static top.xinsin.constants.CacheConstants.DICT_TYPE_KEY;
 
 @Service
@@ -46,9 +47,10 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
         redisTemplate.keys(DICT_TYPE_KEY + "*").forEach(redisTemplate::delete);
         List<SysDictType> dictTypes = this.list();
         for (SysDictType dictType : dictTypes) {
-            QueryWrapper queryWrapper = QueryWrapper.create()
-                    .eq(SysDictTypeItem::getDictTypeId, dictType.getId());
-            List<SysDictTypeItem> dictTypeItems = sysDictTypeItemService.list(queryWrapper);
+            List<SysDictTypeItem> dictTypeItems = sysDictTypeItemService.queryChain()
+                    .select(SYS_DICT_TYPE_ITEM.ALL_COLUMNS)
+                    .where(SYS_DICT_TYPE_ITEM.DICT_TYPE_ID.eq(dictType.getId()))
+                    .list();
             redisTemplate.opsForSet().add(DICT_TYPE_KEY + dictType.getDictType(), dictTypeItems.toArray(new Object[0]));
         }
         return null;

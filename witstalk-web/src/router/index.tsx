@@ -17,6 +17,7 @@ const MenuPage = React.lazy(() => import("~/pages/system/menu/index.tsx"));
 const RolePage = React.lazy(() => import("~/pages/system/role/index.tsx"));
 const DictPage = React.lazy(() => import("~/pages/system/dict/index.tsx"));
 const ProfilePage = React.lazy(() => import("~/pages/system/user/profile.tsx"));
+const ChannelPage = React.lazy(() => import("~/pages/system/channel/index.tsx"));
 
 const loading = () => {
     return (<Spin size="large" className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />)
@@ -101,6 +102,14 @@ const router = createBrowserRouter([
                 element: (
                     <Suspense fallback={loading()}>
                         <DictPage/>
+                    </Suspense>
+                ),
+            },
+            {
+                path: "system/channel",
+                element: (
+                    <Suspense fallback={loading()}>
+                        <ChannelPage/>
                     </Suspense>
                 ),
             }
