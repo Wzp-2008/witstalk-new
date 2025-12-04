@@ -1,7 +1,7 @@
 package top.xinsin.service;
 
+import cn.wzpmc.entities.system.SysMenu;
 import com.mybatisflex.core.service.IService;
-import top.xinsin.domain.SysMenu;
 
 public interface ISysMenuService extends IService<SysMenu> {
 }

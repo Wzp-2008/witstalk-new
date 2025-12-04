@@ -1,4 +1,4 @@
-package top.xinsin.domain;
+package cn.wzpmc.entities.system;
 
 import com.mybatisflex.annotation.Table;
 import lombok.Data;

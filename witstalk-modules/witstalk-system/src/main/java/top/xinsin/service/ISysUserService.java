@@ -1,7 +1,7 @@
 package top.xinsin.service;
 
+import cn.wzpmc.entities.system.SysUser;
 import com.mybatisflex.core.service.IService;
-import top.xinsin.domain.SysUser;
 
 public interface ISysUserService extends IService<SysUser> {
 }

@@ -1,12 +1,10 @@
 package top.xinsin.controller;
 
+import cn.wzpmc.entities.system.SysRoleMenu;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import org.springframework.web.bind.annotation.*;
-import top.xinsin.domain.SysRole;
-import top.xinsin.domain.SysRoleMenu;
 import top.xinsin.service.impl.SysRoleMenuServiceImpl;
-import top.xinsin.service.impl.SysRoleServiceImpl;
 import top.xinsin.util.PageResult;
 import top.xinsin.util.Result;
 

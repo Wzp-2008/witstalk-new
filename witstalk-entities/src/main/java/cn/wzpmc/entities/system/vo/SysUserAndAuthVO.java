@@ -1,8 +1,8 @@
-package top.xinsin.domain.vo;
+package cn.wzpmc.entities.system.vo;
 
+import cn.wzpmc.entities.system.SysUser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import top.xinsin.domain.SysUser;
 
 import java.util.List;
 

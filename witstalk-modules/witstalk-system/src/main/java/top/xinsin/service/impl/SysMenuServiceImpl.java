@@ -1,11 +1,10 @@
 package top.xinsin.service.impl;
 
+import cn.wzpmc.entities.system.SysMenu;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import top.xinsin.domain.SysDictType;
-import top.xinsin.domain.SysMenu;
 import top.xinsin.mapper.SysMenuMapper;
 import top.xinsin.service.ISysMenuService;
 import top.xinsin.util.PageResult;

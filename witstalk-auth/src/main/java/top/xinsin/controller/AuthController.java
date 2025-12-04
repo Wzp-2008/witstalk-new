@@ -1,20 +1,17 @@
 package top.xinsin.controller;
 
 import com.alibaba.fastjson2.JSONObject;
-import org.springframework.web.bind.annotation.GetMapping;
-import top.xinsin.api.system.domain.SysUser;
-import top.xinsin.api.system.domain.vo.SysUserAndAuthVO;
-import top.xinsin.domain.AuthUserRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import top.xinsin.api.system.domain.vo.SysUserAndAuthVO;
 import top.xinsin.constants.CacheConstants;
+import top.xinsin.domain.AuthUserRequest;
 import top.xinsin.service.SysUserDetailsService;
 import top.xinsin.util.JwtUtil;
 import top.xinsin.util.Result;
-import top.xinsin.util.SecurityUtil;
 
 import java.util.concurrent.TimeUnit;
 

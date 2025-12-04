@@ -1,24 +1,20 @@
 package top.xinsin.service.impl;
 
+import cn.wzpmc.entities.system.SysRoleUser;
+import cn.wzpmc.entities.system.vo.SysUserAndRoleVO;
 import com.mybatisflex.core.paginate.Page;
-import com.mybatisflex.core.query.QueryChain;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import top.xinsin.domain.SysRoleMenu;
-import top.xinsin.domain.SysRoleUser;
-import top.xinsin.domain.vo.SysUserAndRoleVO;
-import top.xinsin.mapper.SysRoleMenuMapper;
 import top.xinsin.mapper.SysRoleUserMapper;
-import top.xinsin.service.ISysRoleMenuService;
 import top.xinsin.service.ISysRoleUserService;
 import top.xinsin.util.PageResult;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static top.xinsin.domain.table.SysRoleUserTableDef.SYS_ROLE_USER;
-import static top.xinsin.domain.table.SysUserTableDef.SYS_USER;
+import static cn.wzpmc.entities.system.table.SysRoleUserTableDef.SYS_ROLE_USER;
+import static cn.wzpmc.entities.system.table.SysUserTableDef.SYS_USER;
 
 @Service
 public class SysRoleUserServiceImpl extends ServiceImpl<SysRoleUserMapper, SysRoleUser> implements ISysRoleUserService {

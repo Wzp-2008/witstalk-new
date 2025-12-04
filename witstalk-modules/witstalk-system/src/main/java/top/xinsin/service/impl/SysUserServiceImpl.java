@@ -1,27 +1,23 @@
 package top.xinsin.service.impl;
 
+import cn.wzpmc.entities.system.SysUser;
+import cn.wzpmc.entities.system.vo.SysUserAndAuthVO;
 import com.mybatisflex.core.paginate.Page;
-import com.mybatisflex.core.query.QueryColumn;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import top.xinsin.domain.SysDictTypeItem;
-import top.xinsin.domain.SysUser;
-import top.xinsin.domain.vo.SysUserAndAuthVO;
 import top.xinsin.mapper.SysUserMapper;
 import top.xinsin.service.ISysUserService;
 import top.xinsin.util.PageResult;
 
 import java.util.List;
 
-import static com.mybatisflex.core.query.QueryMethods.distinct;
-import static com.mybatisflex.core.query.QueryMethods.groupConcat;
-import static top.xinsin.domain.table.SysMenuTableDef.SYS_MENU;
-import static top.xinsin.domain.table.SysRoleMenuTableDef.SYS_ROLE_MENU;
-import static top.xinsin.domain.table.SysRoleTableDef.SYS_ROLE;
-import static top.xinsin.domain.table.SysRoleUserTableDef.SYS_ROLE_USER;
-import static top.xinsin.domain.table.SysUserTableDef.SYS_USER;
+import static cn.wzpmc.entities.system.table.SysMenuTableDef.SYS_MENU;
+import static cn.wzpmc.entities.system.table.SysRoleMenuTableDef.SYS_ROLE_MENU;
+import static cn.wzpmc.entities.system.table.SysRoleTableDef.SYS_ROLE;
+import static cn.wzpmc.entities.system.table.SysRoleUserTableDef.SYS_ROLE_USER;
+import static cn.wzpmc.entities.system.table.SysUserTableDef.SYS_USER;
 
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {

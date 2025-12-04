@@ -1,4 +1,4 @@
-package top.xinsin.domain.vo;
+package cn.wzpmc.entities.system.vo;
 
 import lombok.Data;
 

@@ -1,10 +1,9 @@
 package top.xinsin.controller;
 
+import cn.wzpmc.entities.system.SysMenu;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import org.springframework.web.bind.annotation.*;
-import top.xinsin.domain.SysDictType;
-import top.xinsin.domain.SysMenu;
 import top.xinsin.service.impl.SysMenuServiceImpl;
 import top.xinsin.util.PageResult;
 import top.xinsin.util.Result;

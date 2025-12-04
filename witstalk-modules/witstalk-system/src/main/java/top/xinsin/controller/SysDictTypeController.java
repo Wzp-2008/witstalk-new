@@ -1,10 +1,10 @@
 package top.xinsin.controller;
 
+import cn.wzpmc.entities.system.SysDictType;
+import cn.wzpmc.entities.system.SysDictTypeItem;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import org.springframework.web.bind.annotation.*;
-import top.xinsin.domain.SysDictType;
-import top.xinsin.domain.SysDictTypeItem;
 import top.xinsin.service.impl.SysDictTypeItemServiceImpl;
 import top.xinsin.service.impl.SysDictTypeServiceImpl;
 import top.xinsin.util.PageResult;

@@ -1,20 +1,14 @@
 package top.xinsin.controller;
 
-import com.alibaba.fastjson2.JSON;
+import cn.wzpmc.entities.system.SysUser;
+import cn.wzpmc.entities.system.vo.SysUserAndAuthVO;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import top.xinsin.api.system.RemoteUserService;
-import top.xinsin.domain.SysDictType;
-import top.xinsin.domain.SysUser;
-import top.xinsin.domain.vo.SysUserAndAuthVO;
-import top.xinsin.entity.LoginUser;
 import top.xinsin.service.impl.SysUserServiceImpl;
 import top.xinsin.util.PageResult;
 import top.xinsin.util.Result;
-import top.xinsin.util.SecurityUtil;
 
 import java.util.List;
 

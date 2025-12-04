@@ -1,9 +1,8 @@
 package top.xinsin.mapper;
 
+import cn.wzpmc.entities.system.SysRoleMenu;
 import com.mybatisflex.core.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import top.xinsin.domain.SysRole;
-import top.xinsin.domain.SysRoleMenu;
 
 @Mapper
 public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {

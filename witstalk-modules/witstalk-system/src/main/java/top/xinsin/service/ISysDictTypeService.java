@@ -1,7 +1,7 @@
 package top.xinsin.service;
 
+import cn.wzpmc.entities.system.SysDictType;
 import com.mybatisflex.core.service.IService;
-import top.xinsin.domain.SysDictType;
 
 public interface ISysDictTypeService extends IService<SysDictType> {
 }

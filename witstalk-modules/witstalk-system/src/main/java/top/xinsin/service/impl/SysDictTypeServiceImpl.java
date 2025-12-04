@@ -1,12 +1,12 @@
 package top.xinsin.service.impl;
 
+import cn.wzpmc.entities.system.SysDictType;
+import cn.wzpmc.entities.system.SysDictTypeItem;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import top.xinsin.domain.SysDictType;
-import top.xinsin.domain.SysDictTypeItem;
 import top.xinsin.mapper.SysDictTypeMapper;
 import top.xinsin.service.ISysDictTypeService;
 import top.xinsin.util.PageResult;

@@ -1,7 +1,6 @@
-package top.xinsin.domain;
+package cn.wzpmc.entities.system;
 
 import com.mybatisflex.annotation.Column;
-import com.mybatisflex.annotation.RelationOneToMany;
 import com.mybatisflex.annotation.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
