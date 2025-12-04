@@ -5,3 +5,6 @@ spring:
         name: witstalk-file
     profiles:
         active: ${SPRING_PROFILES_ACTIVE:dev}
+    servlet:
+      multipart:
+        resolve-lazily: true
