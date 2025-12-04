@@ -10,6 +10,8 @@ import top.xinsin.api.system.RemoteUserService;
 import top.xinsin.util.Result;
 import top.xinsin.util.SecurityUtil;
 
+import java.util.Objects;
+
 @Service
 public class SysUserDetailsService {
     private final RemoteUserService remoteUserService;
@@ -20,7 +22,7 @@ public class SysUserDetailsService {
 
     public AuthUserRequest login(String username, String password) {
         Result<SysUserAndAuthVO> userInfo = remoteUserService.getUserInfo(username);
-        SysUserAndAuthVO sysUser = userInfo.getData();
+        SysUserAndAuthVO sysUser = userInfo.data();
         if (sysUser == null) {
             throw new UsernameNotFoundException("用户不存在");
         }
@@ -42,13 +44,13 @@ public class SysUserDetailsService {
     public void register(AuthUserRequest userDetails) {
         String encode = new BCryptPasswordEncoder().encode(userDetails.getPassword());
         Result<SysUser> sysUserResult = remoteUserService.register(userDetails.getUsername(), userDetails.getNickName(), encode);
-        if (!sysUserResult.getCode().equals(200)) {
-            throw new RuntimeException("注册失败: " + sysUserResult.getMsg());
+        if (!sysUserResult.code().equals(200)) {
+            throw new RuntimeException("注册失败: " + sysUserResult.msg());
         }
     }
 
     public SysUserAndAuthVO userInfo() {
-        SysUserAndAuthVO data = remoteUserService.getUserInfo(SecurityUtil.getLoginUser().getUsername()).getData();
+        SysUserAndAuthVO data = remoteUserService.getUserInfo(Objects.requireNonNull(SecurityUtil.getLoginUser()).getUsername()).data();
         data.setPassword(null);
         return data;
     }
