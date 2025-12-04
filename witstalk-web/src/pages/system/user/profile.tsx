@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Card,
   Avatar,
@@ -41,14 +41,14 @@ export default function Profile() {
   }, [userInfo, basicForm]);
 
   // 将图片转换为base64
-  const getBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = error => reject(error);
-    });
-  };
+  // const getBase64 = (file: File): Promise<string> => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result as string);
+  //     reader.onerror = error => reject(error);
+  //   });
+  // };
 
   // 处理头像上传
   const handleAvatarUpload = async (file: File) => {
@@ -161,8 +161,8 @@ export default function Profile() {
                   </Button>
                 </Upload>
                 {avatarFile && (
-                  <Button 
-                    type="primary" 
+                  <Button
+                    type="primary"
                     className="cream-button"
                     onClick={handleSaveAvatar}
                     loading={loading}

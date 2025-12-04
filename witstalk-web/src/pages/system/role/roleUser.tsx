@@ -13,6 +13,7 @@ import {
 import { request } from '~/util/request';
 import { showMessage } from '~/util/msg';
 import SelectUser from '~/components/SelectUser';
+import { type ColumnsType } from 'antd/es/table';
 
 interface User {
     id: number;
@@ -134,7 +135,7 @@ const RoleUser: React.FC<RoleUserBindingProps> = ({
     };
 
     // 表格列配置
-    const columns = [
+    const columns: ColumnsType = [
         {
             title: '用户名',
             dataIndex: 'username',
@@ -159,10 +160,10 @@ const RoleUser: React.FC<RoleUserBindingProps> = ({
             align: 'center',
             width: 100,
             render: (_: unknown, record: User) => (
-                <Button 
-                    type="link" 
-                    danger 
-                    icon={<DeleteOutlined />} 
+                <Button
+                    type="link"
+                    danger
+                    icon={<DeleteOutlined />}
                     onClick={() => handleDeleteUser(record.id)}
                     loading={deleteLoading}
                 />
@@ -173,7 +174,7 @@ const RoleUser: React.FC<RoleUserBindingProps> = ({
     return (
         <div className="p-4">
             <h4 className="mb-4 font-semibold">{roleName} - 用户绑定</h4>
-            
+
             {/* 用户选择区域 */}
             <div className="bg-white p-4 rounded border mb-4">
                 <h5 className="mb-2 font-medium">选择用户</h5>
@@ -214,9 +215,9 @@ const RoleUser: React.FC<RoleUserBindingProps> = ({
                 <Button onClick={onClose} className="cream-button">
                     取消
                 </Button>
-                <Button 
-                    type="primary" 
-                    icon={<SaveOutlined />} 
+                <Button
+                    type="primary"
+                    icon={<SaveOutlined />}
                     onClick={handleSaveRoleUser}
                     loading={saveLoading}
                     className="cream-button"

@@ -13,6 +13,8 @@ interface WtDrawerProps {
   okButtonProps?: any;
   cancelButtonProps?: any;
   children: React.ReactNode;
+  footer?: React.ReactNode;
+  confirmLoading?: boolean;
 }
 
 export default function WtDrawer({
@@ -26,7 +28,7 @@ export default function WtDrawer({
   cancelText = '取消',
   okButtonProps = {},
   cancelButtonProps = {},
-  children
+  children,
 }: WtDrawerProps) {
   return (
     <Drawer

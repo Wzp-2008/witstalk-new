@@ -28,7 +28,7 @@ const router = createBrowserRouter([
         path: "/",
         element: (
             <Suspense fallback={loading()}>
-                <AppLayout> </AppLayout>
+                <AppLayout />
             </Suspense>
         ),
         errorElement: <ErrorBoundary error={{ status: 500 }} />,

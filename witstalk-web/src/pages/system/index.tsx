@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 import './system.css';
 import bgc from '~/assets/images/bgc.jpg';
 import type {MasonryItemType} from "antd/es/masonry/MasonryItem";
-import React from "react";
 
 interface SystemItem {
     img: object;
@@ -53,7 +52,7 @@ export default function System() {
                     <img
                         alt="icon"
                         className="system-card-icon"
-                        src={ item.img as string }
+                        src={ item.img }
                     />
                 }
             >

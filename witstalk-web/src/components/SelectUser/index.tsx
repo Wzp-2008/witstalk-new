@@ -59,11 +59,12 @@ interface User {
   nickName: string;
   avatar: string;
   email: string;
+  userId?: number;
 }
 
 interface SelectUserProps {
   value?: number | number[] | User | User[];
-  onChange?: (value: number | number[] | User | User[]) => void;
+  onChange?: (value: User[]) => void;
   placeholder?: string;
   mode?: 'single' | 'multiple';
   style?: React.CSSProperties;
@@ -95,7 +96,7 @@ export default function SelectUser({
         // 多选模式
         if (value.length > 0 && typeof value[0] === 'object') {
           // 如果是User对象数组
-          setSelectedUserIds(value.map(user => (user as User).userId));
+          setSelectedUserIds(value.map(user => (user as User).userId!));
         } else {
           // 如果是number数组
           setSelectedUserIds(value as number[]);
@@ -104,7 +105,7 @@ export default function SelectUser({
         // 单选模式
         if (typeof value === 'object') {
           // 如果是User对象
-          setSelectedUserIds([(value as User).userId]);
+          setSelectedUserIds([value.userId!]);
         } else {
           // 如果是number
           setSelectedUserIds(value ? [value] : []);
@@ -127,7 +128,7 @@ export default function SelectUser({
     }
   });
 
-  const users = data?.records || [];
+  const users = data?.records as User[] || [];
   const total = data?.total || 0;
 
   // 处理搜索
@@ -158,11 +159,11 @@ export default function SelectUser({
       newSelectedUserIds = [userId];
     }
     setSelectedUserIds(newSelectedUserIds);
-    
+
     if (onChange) {
       // 获取选中的用户对象
       const selectedUsers = users.filter(user => newSelectedUserIds.includes(user.id));
-      
+
       if (mode === 'multiple') {
         // 多选模式返回User对象数组
         onChange(selectedUsers);

@@ -38,6 +38,7 @@ export const useUserStore = create(
         updateTime: null,
       },
       permissions: [],
+      roles:[],
       updateUserInfo: async() => {
         const res = await userInfo();
         set({

@@ -19,6 +19,7 @@ import { requestSWR, request } from '~/util/request';
 import { showMessage } from '~/util/msg';
 import WtDrawer from '~/components/WtDrawer';
 import WtPagination from '~/components/WtPagination';
+import { type ColumnsType } from 'antd/es/table';
 
 const url = {
     list: '/system/sysDictTypeItem/list',
@@ -45,7 +46,7 @@ export default function DictItem({ dictTypeId, dictType }: DictItemProps) {
     const [dataSource, setDataSource] = useState<any[]>([]);
     const [operationType, setOperationType] = useState<'add' | 'edit' | 'view'>('add');
 
-    const columns = [
+    const columns: ColumnsType = [
         {
             title: '#',
             dataIndex: 'index',
