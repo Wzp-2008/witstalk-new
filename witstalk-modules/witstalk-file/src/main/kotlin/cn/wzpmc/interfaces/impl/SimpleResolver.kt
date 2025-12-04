@@ -1,9 +1,9 @@
 package cn.wzpmc.interfaces.impl
 
-import cn.wzpmc.entities.files.FullRawFileObject
-import cn.wzpmc.entities.files.enums.FileType
-import cn.wzpmc.entities.vo.FolderVo
-import cn.wzpmc.entities.vo.table.FolderVoTableDef.FOLDER_VO
+import cn.wzpmc.entities.FullRawFileObject
+import cn.wzpmc.entities.enums.FileType
+import cn.wzpmc.entities.file.vo.FolderVo
+import cn.wzpmc.entities.file.vo.table.FolderVoTableDef.FOLDER_VO
 import cn.wzpmc.mapper.FolderMapper
 import cn.wzpmc.service.FileService
 import org.springframework.beans.factory.annotation.Autowired
