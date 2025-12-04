@@ -21,7 +21,6 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation(project(":witstalk-modules:witstalk-system"))
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation("commons-codec:commons-codec:1.17.1")
     // https://mvnrepository.com/artifact/org.apache.tika/tika-core
