@@ -21,7 +21,6 @@ allprojects {
 subprojects {
     // 1. 强制应用基础插件
     apply(plugin = "java")
-    apply(plugin = "org.springframework.boot")
     // 2. 关键：显式应用依赖管理插件（必须添加）
     apply(plugin = "io.spring.dependency-management")
 
@@ -33,6 +32,7 @@ subprojects {
     // 3. 使用插件提供的扩展（此时已能识别）
     configure<io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension> {
         imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.8")
             mavenBom("org.springframework.cloud:spring-cloud-dependencies:2025.0.0")
             mavenBom("com.alibaba.cloud:spring-cloud-alibaba-dependencies:2025.0.0.0")
         }
@@ -59,5 +59,35 @@ subprojects {
         testImplementation("org.projectlombok:lombok:${rootProject.extra.get("lombok-version")}")
         testAnnotationProcessor("org.projectlombok:lombok:${rootProject.extra.get("lombok-version")}")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+    }
+}
+
+// 可执行模块列表
+val executableModules = listOf(
+    ":witstalk-gateway" to "top.xinsin.GatewayApplication",
+    ":witstalk-auth" to "top.xinsin.AuthApplication",
+    ":witstalk-modules:witstalk-system" to "top.xinsin.SystemApplication",
+    ":witstalk-modules:witstalk-game" to "top.xinsin.GameApplication",
+    ":witstalk-modules:witstalk-witstalk" to "cn.wzpmc.WitstalkApplication",
+    ":witstalk-modules:witstalk-file" to "cn.wzpmc.FileApplication"
+)
+
+// 为可执行模块应用Spring Boot插件并配置
+subprojects {
+    if (executableModules.any { it.first == project.path }) {
+        apply(plugin = "org.springframework.boot")
+        
+        // 配置bootJar任务
+        tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+            val moduleName = project.path.substringAfterLast(":")
+            archiveBaseName.set(moduleName)
+            archiveVersion.set("1.0.0")
+            
+            // 设置主类
+            val mainClass = executableModules.find { it.first == project.path }?.second
+            if (mainClass != null) {
+                this.mainClass.set(mainClass)
+            }
+        }
     }
 }
